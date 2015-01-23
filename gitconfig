@@ -1,0 +1,9 @@
+[user]
+	email = camthemann@gmail.com
+	name = Cameron Mann
+[push]
+	default = simple
+[init]
+	templatedir = ~/.gittemplate
+[merge]
+	tool = vimdiff
