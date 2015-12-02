@@ -16,11 +16,11 @@ eval "$(hub alias -s)"
 
 case $OSTYPE in
 darwin*)
-	[[ -r /usr/local/etc/bash_completion ]] && . /usr/local/etc/bash_completion
+    [[ -r /usr/local/etc/bash_completion ]] && . /usr/local/etc/bash_completion
     PATH=/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH
-	PATH=/usr/local/bin:$PATH
-	export CLICOLOR=1
-	alias tmux="TERM=screen-256color tmux"
+    PATH=/usr/local/bin:$PATH
+    export CLICOLOR=1
+    alias tmux="TERM=screen-256color tmux"
     ;;
 linux*)
 	eval "$(dircolors)"
