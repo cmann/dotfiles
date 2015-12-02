@@ -23,8 +23,9 @@ darwin*)
     alias tmux="TERM=screen-256color tmux"
     ;;
 linux*)
-	eval "$(dircolors)"
-	alias ls='ls --color=auto'
+    eval "$(dircolors)"
+    alias ls='ls --color=auto'
+    ;;
 esac
 
 PATH=$HOME/.rvm/bin:$PATH
