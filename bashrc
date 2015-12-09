@@ -7,12 +7,14 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 PATH=$HOME/devel/go/bin:$PATH
 PATH=$HOME/bin:$PATH
 
+alias ll='ls -lh'
+alias la='ls -lha'
 alias dockerrm='docker rm $(docker ps -a | grep -v Up | grep -v data | grep -v CONTAINER | cut -d" " -f1)'
 alias dockerrmi='docker rmi $(docker images -q -f dangling=true)'
 alias dockerclean='dockerrm; dockerrmi'
+alias git='hub'
 
 eval "$($HOME/devel/lmc/bin/lmc init -)"
-eval "$(hub alias -s)"
 
 case $OSTYPE in
 darwin*)
@@ -24,7 +26,6 @@ darwin*)
     ;;
 linux*)
     eval "$(dircolors)"
-    alias ls='ls --color=auto'
     ;;
 esac
 
