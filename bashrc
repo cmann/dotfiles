@@ -7,7 +7,7 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 PATH=$HOME/devel/go/bin:$PATH
 PATH=$HOME/bin:$PATH
 
-alias dockerrm='docker rm $(docker ps -a -q)'
+alias dockerrm='docker rm $(docker ps -a | grep -v Up | grep -v data | grep -v CONTAINER | cut -d" " -f1)'
 alias dockerrmi='docker rmi $(docker images -q -f dangling=true)'
 alias dockerclean='dockerrm; dockerrmi'
 
