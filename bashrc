@@ -9,10 +9,12 @@ PATH=$HOME/bin:$PATH
 
 alias ll='ls -lh'
 alias la='ls -lha'
+alias dm='docker-machine'
 alias dockerrm='docker rm $(docker ps -a | grep -v Up | grep -v data | grep -v CONTAINER | cut -d" " -f1)'
 alias dockerrmi='docker rmi $(docker images -q -f dangling=true)'
 alias dockerclean='dockerrm; dockerrmi'
 alias git='hub'
+alias dssh='ssh -i $DEFAULT_SSH_KEY'
 
 eval "$($HOME/devel/lmc/bin/lmc init -)"
 
@@ -42,3 +44,26 @@ _dmswitch() {
     COMPREPLY=( $(compgen -W "$(docker-machine ls -q)" -- $cur) )
 }
 complete -F _dmswitch dmswitch
+
+vpnon() {
+    ps aux | grep openconnect | grep -v grep > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "VPN already connected"
+        return
+    fi
+
+    user=$(security 2>/dev/null find-generic-password -gs vpn.cybera.ca | grep "acct" | cut -d '"' -f 4 | sed 's/\\$/\\\\\\\$/g')
+    password=$(security 2>&1 >/dev/null find-generic-password -gs vpn.cybera.ca | cut -d '"' -f 2 | sed 's/\\$/\\\\\\\$/g')
+    if [ "$password" == "security: SecKeychainSearchCopyNext: The specified item could not be found in the keychain." ]; then
+        echo -n "User: "
+        read -s user
+        echo -n "Password: "
+        read -s password
+    fi
+
+    echo "$password" | sudo openconnect -u $user --passwd-on-stdin -b vpn.cybera.ca
+}
+
+vpnoff() {
+    sudo killall openconnect
+}
