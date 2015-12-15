@@ -28,6 +28,7 @@ darwin*)
     ;;
 linux*)
     eval "$(dircolors)"
+    alias ls='ls --color=auto'
     ;;
 esac
 
