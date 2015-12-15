@@ -53,16 +53,21 @@ vpnon() {
         return
     fi
 
-    user=$(security 2>/dev/null find-generic-password -gs vpn.cybera.ca | grep "acct" | cut -d '"' -f 4 | sed 's/\\$/\\\\\\\$/g')
-    password=$(security 2>&1 >/dev/null find-generic-password -gs vpn.cybera.ca | cut -d '"' -f 2 | sed 's/\\$/\\\\\\\$/g')
-    if [ "$password" == "security: SecKeychainSearchCopyNext: The specified item could not be found in the keychain." ]; then
-        echo -n "User: "
-        read -s user
-        echo -n "Password: "
-        read -s password
-    fi
+    case $OSTYPE in
+    darwin*)
+        user=$(security 2>/dev/null find-generic-password -gs vpn.cybera.ca | grep "acct" | cut -d '"' -f 4 | sed 's/\\$/\\\\\\\$/g')
+        password=$(security 2>&1 >/dev/null find-generic-password -gs vpn.cybera.ca | cut -d '"' -f 2 | sed 's/\\$/\\\\\\\$/g')
 
-    echo "$password" | sudo openconnect -u $user --passwd-on-stdin -b vpn.cybera.ca
+        if [ "$password" == "security: SecKeychainSearchCopyNext: The specified item could not be found in the keychain." ]; then
+            sudo openconnect -b vpn.cybera.ca
+        else
+            echo "$password" | sudo openconnect -u $user --passwd-on-stdin -b vpn.cybera.ca
+        fi
+        ;;
+    linux*)
+        sudo openconnect -b vpn.cybera.ca
+        ;;
+    esac
 }
 
 vpnoff() {
