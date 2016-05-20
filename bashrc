@@ -30,6 +30,7 @@ darwin*)
 linux*)
     eval "$(dircolors)"
     alias ls='ls --color=auto'
+    xmodmap ~/.xmodmap
     ;;
 esac
 
@@ -65,7 +66,7 @@ vpnon() {
         fi
         ;;
     linux*)
-        sudo openconnect -q -l -b vpn.cybera.ca
+        sudo openconnect -q -b vpn.cybera.ca
         ;;
     esac
 }
