@@ -30,7 +30,7 @@ darwin*)
 linux*)
     eval "$(dircolors)"
     alias ls='ls --color=auto'
-    xmodmap ~/.xmodmap
+    xmodmap ~/.xmodmap >/dev/null 2>&1
     ;;
 esac
 
