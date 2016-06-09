@@ -9,6 +9,7 @@ PATH=$HOME/bin:$PATH
 
 alias ll='ls -lh'
 alias la='ls -lha'
+alias dc='docker-compose'
 alias dm='docker-machine'
 alias dockerrm='docker rm $(docker ps -a | grep -v Up | grep -v data | grep -v CONTAINER | cut -d" " -f1) 2>/dev/null'
 alias dockerrmi='docker rmi $(docker images -q -f dangling=true) 2>/dev/null'
