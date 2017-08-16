@@ -6,6 +6,9 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
 PATH=$HOME/devel/go/bin:$PATH
 PATH=$HOME/bin:$PATH
+PATH=/usr/local/opt/python/libexec/bin:$PATH
+PATH=$HOME/.rvm/bin:$PATH
+export PATH
 
 alias ll='ls -lh'
 alias la='ls -lha'
@@ -19,6 +22,8 @@ alias git='hub'
 alias dssh='ssh -i $DEFAULT_SSH_KEY'
 
 eval "$($HOME/devel/lmc/bin/lmc init -)"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 case $OSTYPE in
 darwin*)
@@ -34,11 +39,6 @@ linux*)
     xmodmap ~/.xmodmap >/dev/null 2>&1
     ;;
 esac
-
-PATH=$HOME/.rvm/bin:$PATH
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-
-export PATH
 
 dmswitch() {
     eval "$(docker-machine env $1)"
