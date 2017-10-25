@@ -1,4 +1,8 @@
-export PS1='\[\033[0;32m\]\u \[\033[0;34m\]\w\[\033[0m\] $(__git_ps1 "(%s)")\n$ '
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+export PS1='\[\033[0;32m\]\u \[\033[0;34m\]\w\[\033[0m\]$(__git_ps1 " (%s)")$(__venv_ps1)\n$ '
 export EDITOR="vim"
 export HISTCONTROL=ignoreboth
 export GOPATH=$HOME/devel/go
@@ -9,6 +13,10 @@ PATH=$HOME/bin:$PATH
 PATH=/usr/local/opt/python/libexec/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
 export PATH
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export WORKON_HOME=~/devel/virtualenvs
+source /usr/bin/virtualenvwrapper.sh
 
 alias ll='ls -lh'
 alias la='ls -lha'
@@ -22,8 +30,8 @@ alias git='hub'
 alias dssh='ssh -i $DEFAULT_SSH_KEY'
 
 eval "$($HOME/devel/lmc/bin/lmc init -)"
-
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+[ -f ~/.fzf.bash ] && . ~/.fzf.bash
 
 case $OSTYPE in
 darwin*)
@@ -74,4 +82,10 @@ vpnon() {
 
 vpnoff() {
     sudo killall openconnect
+}
+
+__venv_ps1() {
+    if [ ! -z ${VIRTUAL_ENV+x} ]; then
+        echo " (py:$(basename "$VIRTUAL_ENV"))"
+    fi
 }
