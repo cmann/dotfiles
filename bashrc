@@ -15,6 +15,7 @@ PATH=$HOME/.rvm/bin:$PATH
 export PATH
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=~/devel/virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 
