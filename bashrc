@@ -17,7 +17,6 @@ export PATH
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=~/devel/virtualenvs
-source /usr/bin/virtualenvwrapper.sh
 
 alias ll='ls -lh'
 alias la='ls -lha'
@@ -41,11 +40,13 @@ darwin*)
     PATH=/usr/local/bin:$PATH
     export CLICOLOR=1
     alias tmux="TERM=screen-256color tmux"
+    [ -f /usr/local/bin/virtualenvwrapper.sh ] && . /usr/local/bin/virtualenvwrapper.sh
     ;;
 linux*)
     eval "$(dircolors)"
     alias ls='ls --color=auto'
     xmodmap ~/.xmodmap >/dev/null 2>&1
+    [ -f /usr/bin/virtualenvwrapper.sh ] && . /usr/bin/virtualenvwrapper.sh
     ;;
 esac
 
