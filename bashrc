@@ -16,6 +16,7 @@ export PATH
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=~/.virtualenvs
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
 alias ls='ls --color=auto'
 alias ll='ls -lh'
