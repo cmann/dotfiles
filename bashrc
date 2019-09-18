@@ -23,9 +23,12 @@ alias ll='ls -lh'
 alias la='ls -lha'
 alias dc='docker-compose'
 alias dm='docker-machine'
-alias git='hub'
 alias vpn='sudo openconnect -q -b vpn.cybera.ca'
 alias vpn-off='sudo killall openconnect'
+
+alias git='hub'
+alias gl='git log --oneline'
+alias gri='git rebase -i --autosquash --onto $(git merge-base -a HEAD @{upstream})'
 
 eval "$(dircolors)"
 
@@ -33,6 +36,7 @@ eval "$(dircolors)"
 [ -f ~/.rvm/scripts/rvm ] && . ~/.rvm/scripts/rvm
 [ -f ~/.fzf.bash ] && . ~/.fzf.bash
 [ -f ~/.local/bin/virtualenvwrapper.sh ] && . ~/.local/bin/virtualenvwrapper.sh
+[ -f /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
 
 dmswitch() {
     eval "$(docker-machine env $1)"
