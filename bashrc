@@ -25,6 +25,7 @@ alias dc='docker-compose'
 alias dm='docker-machine'
 alias vpn='sudo openconnect -q -b vpn.cybera.ca'
 alias vpn-off='sudo killall openconnect'
+alias vim='nvim'
 
 alias git='hub'
 alias gl='git log --oneline'
