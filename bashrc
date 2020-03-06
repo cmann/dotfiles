@@ -3,7 +3,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export PS1='\[\033[0;32m\]\u \[\033[0;34m\]\w\[\033[0m\]$(__git_ps1 " (%s)")$(__venv_ps1)\n$ '
-export EDITOR="vim"
+export EDITOR="nvim"
 export HISTCONTROL=ignoreboth
 export GOPATH=$HOME/devel/go
 
@@ -17,6 +17,10 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=~/.virtualenvs
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+--color fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C
+--color pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B
+'
 
 alias ls='ls --color=auto'
 alias ll='ls -lh'
