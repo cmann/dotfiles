@@ -11,11 +11,11 @@ PATH=$HOME/devel/go/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
 PATH=$HOME/.local/bin:$PATH
 PATH=$HOME/bin:$PATH
+PATH=$HOME/.cargo/bin:$PATH
 export PATH
 
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export WORKON_HOME=~/.virtualenvs
+# export VIRTUAL_ENV_DISABLE_PROMPT=1
+# export WORKON_HOME=~/.virtualenvs
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C
@@ -39,8 +39,7 @@ eval "$(dircolors)"
 
 [ -f ~/.xmodmap ] && xmodmap ~/.xmodmap >/dev/null 2>&1
 [ -f ~/.rvm/scripts/rvm ] && . ~/.rvm/scripts/rvm
-[ -f ~/.fzf.bash ] && . ~/.fzf.bash
-[ -f ~/.local/bin/virtualenvwrapper.sh ] && . ~/.local/bin/virtualenvwrapper.sh
+[ -f /usr/share/fzf/shell/key-bindings.bash ] && . /usr/share/fzf/shell/key-bindings.bash
 [ -f /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
 
 dmswitch() {
