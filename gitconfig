@@ -6,4 +6,6 @@
 [init]
 	templatedir = ~/.gittemplate
 [merge]
-	tool = vimdiff
+	tool = nvim
+[mergetool "nvim"]
+	cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
