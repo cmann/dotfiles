@@ -12,6 +12,7 @@ PATH=$HOME/devel/go/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
 PATH=$HOME/.local/bin:$PATH
 PATH=$HOME/bin:$PATH
+PATH=$HOME/.nimble/bin:$PATH
 PATH=$HOME/.cargo/bin:$PATH
 PATH=$HOME/.yarn/bin:$PATH
 PATH=$HOME/.nimble/bin:$PATH

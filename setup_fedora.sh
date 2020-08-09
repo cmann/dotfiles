@@ -9,6 +9,8 @@ python3 -m pip install --user --upgrade pynvim
 sudo systemctl start docker
 sudo usermod -aG docker $USER
 
+sudo dnf -y install libtool aspell
+
 curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o ~/bin/docker-compose
 curl -L "https://github.com/docker/machine/releases/download/v0.16.0/docker-machine-$(uname -s)-$(uname -m)" -o ~/bin/docker-machine
 
