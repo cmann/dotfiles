@@ -39,7 +39,11 @@ alias git='hub'
 alias gl='git log --oneline'
 alias gri='git rebase -i --autosquash --onto $(git merge-base -a HEAD @{upstream})'
 
-eval "$(dircolors)"
+if [ -f ~/.dir_colors ]; then
+    eval "$(dircolors ~/.dir_colors)"
+else
+    eval "$(dircolors)"
+fi
 
 [ -f ~/.xmodmap ] && xmodmap ~/.xmodmap >/dev/null 2>&1
 [ -f ~/.rvm/scripts/rvm ] && . ~/.rvm/scripts/rvm
@@ -63,3 +67,18 @@ __venv_ps1() {
         echo " (py:$(basename "$VIRTUAL_ENV"))"
     fi
 }
+
+vterm_printf() {
+    if [ -n "$TMUX" ]; then
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
+vterm_prompt_end() {
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+export PS1=$PS1'\[$(vterm_prompt_end)\]'
