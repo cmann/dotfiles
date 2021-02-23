@@ -1,0 +1,13 @@
+[user]
+	email = cameron.mann@cybera.ca
+	name = Cameron Mann
+[push]
+	default = simple
+[credential]
+	helper = libsecret
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[hub]
+	protocol = ssh
