@@ -231,10 +231,12 @@
 
 (use-package flycheck)
 (use-package lsp-mode
-  :hook ((go-mode  . lsp)
-         (zig-mode . lsp)
+  :hook ((prog-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
-  :config (setq lsp-completion-provider :capf))
+  :config
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-completion-provider :capf))
+(use-package lsp-ivy)
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
