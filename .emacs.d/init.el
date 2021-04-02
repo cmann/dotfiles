@@ -188,7 +188,7 @@
     (let ((term-buffer (get-buffer "vterm")))
       (if (eq major-mode 'vterm-mode)
           (if (term-check-proc (buffer-name))
-              (if (string= "vterm" (buffer-name))
+              (if (string= "*vterm*" (buffer-name))
                   (previous-buffer)
                 (if term-buffer
                     (switch-to-buffer "vterm")
