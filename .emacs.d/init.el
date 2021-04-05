@@ -116,7 +116,9 @@
   :init (setq evil-want-Y-yank-to-eol t)
   :hook ((evil-visual-state-entry . (lambda() (hl-line-mode -1)))
          (evil-visual-state-exit  . (lambda() (hl-line-mode +1))))
-  :config (evil-mode)
+  :config
+  (evil-mode)
+  (customize-set-variable 'evil-undo-system 'undo-tree)
   :general
   (leader
     "SPC" 'execute-extended-command
@@ -143,7 +145,8 @@
 (use-package evil-lion
   :config (evil-lion-mode))
 (use-package undo-tree
-  :delight)
+  :delight
+  :config (global-undo-tree-mode))
 
 (use-package flyspell
   :delight
