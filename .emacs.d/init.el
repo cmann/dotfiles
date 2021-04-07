@@ -47,9 +47,6 @@
 (grep-apply-setting 'grep-find-command
                     '("rg -n -H --no-heading -e '' $(git rev-parse --show-toplevel || pwd)" . 27))
 
-(setq compilation-read-command nil
-      compilation-always-kill t)
-
 (setq vc-handled-backends '(Git))
 (setq tramp-default-method "ssh")
 (customize-set-variable 'tramp-ssh-controlmaster-options
@@ -67,6 +64,11 @@
   (package-install 'use-package))
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+
+(use-package compile
+  :config (setq compilation-scroll-output t
+                compilation-read-command nil
+                compilation-always-kill t))
 
 (use-package nord-theme
   :init (setq nord0 "#2E3440"
