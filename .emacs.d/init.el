@@ -251,6 +251,10 @@
   :config (yas-global-mode))
 (use-package yasnippet-snippets)
 
+(use-package ws-butler
+  :delight
+  :hook (prog-mode . ws-butler-mode))
+
 (use-package sh-script
   :mode ("\\.bashrc\\'" . sh-mode)
   :config (custom-set-faces `(sh-heredoc ((t (:foreground ,nord14))))))
