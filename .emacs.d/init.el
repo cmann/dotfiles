@@ -150,17 +150,6 @@
   :delight
   :config (global-undo-tree-mode))
 
-(use-package flyspell
-  :delight
-  :hook ((text-mode . flyspell-mode)
-         (org-mode  . flyspell-mode)
-         (prog-mode . flyspell-prog-mode))
-  :config
-  (custom-set-faces `(flyspell-incorrect ((t (:weight bold :underline (:color ,nord11 :style wave))))))
-  (setq ispell-program-name "aspell"
-        ispell-extra-args '("--sug-mode=ultra")
-        flyspell-prog-text-faces (delq 'font-lock-string-face flyspell-prog-text-faces)))
-
 (use-package counsel
   :delight ivy-mode
   :init (setq ivy-use-virtual-buffers t)
@@ -288,13 +277,9 @@
   :general (:keymaps 'zig-mode-map
                      "C-c f" 'zig-format-buffer))
 
-(use-package slime
-  :config (setq inferior-lisp-program "sbcl"))
-
 (use-package yaml-mode)
 (use-package markdown-mode)
 (use-package dockerfile-mode)
-(use-package protobuf-mode)
 (use-package typescript-mode)
 (use-package php-mode)
 
