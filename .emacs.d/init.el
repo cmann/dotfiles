@@ -24,7 +24,6 @@
 (setq read-process-output-max (* 1024 1024))
 (setq ring-bell-function 'ignore)
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(setq org-directory "~/org")
 (setq mode-require-final-newline t)
 (setq create-lockfiles nil)
 (setq vc-make-backup-files t
@@ -42,6 +41,21 @@
 (add-to-list 'completion-styles 'flex)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(setq org-directory "~/org"
+      org-agenda-files '("~/org/inbox.org"
+                         "~/org/projects.org"
+                         "~/org/tickler.org")
+      org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
+                           ("~/org/someday.org" :level . 1)
+                           ("~/org/tickler.org" :maxlevel . 2))
+      org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+      org-capture-templates '(("t" "Todo" entry
+                               (file+headline "~/org/inbox.org" "Tasks")
+                               "* TODO %i%?")
+                              ("T" "Tickler" entry
+                               (file+headline "~/org/tickler.org" "Tickler")
+                               "* %i%? \n %U")))
 
 (require 'grep)
 (grep-apply-setting 'grep-find-command
@@ -160,6 +174,17 @@
   :config
   (setq amx-show-key-bindings nil)
   (amx-mode))
+
+(use-package org-roam
+  :hook (after-init . org-roam-mode)
+  :custom (org-roam-directory (file-truename "~/org/roam/"))
+  :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-graph))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate))))
 
 (use-package vterm
   :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
