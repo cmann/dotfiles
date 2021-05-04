@@ -45,16 +45,16 @@
 (setq org-directory "~/org"
       org-agenda-files '("~/org/inbox.org"
                          "~/org/projects.org"
-                         "~/org/tickler.org")
+                         "~/org/reminders.org")
       org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
                            ("~/org/someday.org" :level . 1)
-                           ("~/org/tickler.org" :maxlevel . 2))
+                           ("~/org/reminders.org" :maxlevel . 2))
       org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
       org-capture-templates '(("t" "Todo" entry
                                (file+headline "~/org/inbox.org" "Tasks")
                                "* TODO %i%?")
-                              ("T" "Tickler" entry
-                               (file+headline "~/org/tickler.org" "Tickler")
+                              ("r" "Reminder" entry
+                               (file+headline "~/org/reminders.org" "Reminders")
                                "* %i%? \n %U")))
 
 (require 'grep)
