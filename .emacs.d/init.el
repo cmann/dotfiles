@@ -33,6 +33,9 @@
       kept-old-versions 0
       delete-old-versions t
       backup-directory-alist '(("." . "~/.emacs.d/backups/")))
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
 
 (setq-default indent-tabs-mode nil
               tab-width 4)
