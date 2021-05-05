@@ -83,7 +83,8 @@
 (setq use-package-always-ensure t)
 
 (use-package compile
-  :config (setq compilation-scroll-output t
+  :config (setq compilation-ask-about-save nil
+                compilation-scroll-output 'first-error
                 compilation-read-command nil
                 compilation-always-kill t))
 
