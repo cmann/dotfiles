@@ -183,6 +183,7 @@
   (amx-mode))
 
 (use-package org-roam
+  :delight
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory (file-truename "~/org/roam/"))
   :bind (:map org-roam-mode-map
