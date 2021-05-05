@@ -166,7 +166,10 @@
   :config (evil-lion-mode))
 (use-package undo-tree
   :delight
-  :config (global-undo-tree-mode))
+  :config
+  (setq undo-tree-history-directory-alist `((".*" . "~/emacs.d/undo"))
+        undo-tree-auto-save-history t)
+  (global-undo-tree-mode))
 
 (use-package counsel
   :delight ivy-mode
