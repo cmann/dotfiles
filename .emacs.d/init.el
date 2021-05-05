@@ -24,7 +24,7 @@
 (setq read-process-output-max (* 1024 1024))
 (setq ring-bell-function 'ignore)
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(setq mode-require-final-newline t)
+(setq require-final-newline t)
 (setq create-lockfiles nil)
 (setq vc-make-backup-files t
       version-control t
