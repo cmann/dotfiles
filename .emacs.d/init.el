@@ -138,7 +138,6 @@
          (evil-visual-state-exit  . (lambda() (hl-line-mode +1))))
   :config
   (evil-mode)
-  (customize-set-variable 'evil-undo-system 'undo-tree)
   :general
   (leader
     "SPC" 'execute-extended-command
@@ -165,10 +164,12 @@
 (use-package evil-lion
   :config (evil-lion-mode))
 (use-package undo-tree
+  :after evil
   :delight
   :config
   (setq undo-tree-history-directory-alist `((".*" . "~/emacs.d/undo"))
         undo-tree-auto-save-history t)
+  (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode))
 
 (use-package counsel
