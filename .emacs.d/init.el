@@ -45,21 +45,6 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(setq org-directory "~/org"
-      org-agenda-files '("~/org/inbox.org"
-                         "~/org/projects.org"
-                         "~/org/reminders.org")
-      org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
-                           ("~/org/someday.org" :level . 1)
-                           ("~/org/reminders.org" :maxlevel . 2))
-      org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
-      org-capture-templates '(("t" "Todo" entry
-                               (file+headline "~/org/inbox.org" "Tasks")
-                               "* TODO %i%?")
-                              ("r" "Reminder" entry
-                               (file+headline "~/org/reminders.org" "Reminders")
-                               "* %i%? \n %U")))
-
 (require 'grep)
 (grep-apply-setting 'grep-find-command
                     '("rg -n -H --no-heading -e '' $(git rev-parse --show-toplevel || pwd)" . 27))
@@ -82,48 +67,7 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(use-package compile
-  :config (setq compilation-ask-about-save nil
-                compilation-scroll-output 'first-error
-                compilation-read-command nil
-                compilation-always-kill t))
-
-(use-package nord-theme
-  :init (setq nord0 "#2E3440"
-              nord1 "#3B4252"
-              nord2 "#434C5E"
-              nord3 "#4C566A"
-              nord4 "#D8DEE9"
-              nord5 "#E5E9F0"
-              nord6 "#ECEFF4"
-              nord7 "#8FBCBB"
-              nord8 "#88C0D0"
-              nord9 "#81A1C1"
-              nord10 "#5E81AC"
-              nord11 "#BF616A"
-              nord12 "#D08770"
-              nord13 "#EBCB8B"
-              nord14 "#A3BE8C"
-              nord15 "#B48EAD")
-  :config
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (select-frame frame)
-                  (load-theme 'nord t)))
-    (load-theme 'nord t))
-  (custom-set-faces `(compilation-mode-line-exit ((t (:foreground ,nord14)))))
-  (custom-set-faces `(compilation-mode-line-fail ((t (:foreground ,nord11))))))
-
-(use-package highlight-numbers
-  :hook (prog-mode . highlight-numbers-mode)
-  :config (custom-set-faces `(highlight-numbers-number ((t (:foreground ,nord15))))))
-
 (use-package delight)
-
-(use-package which-key
-  :delight
-  :config (which-key-mode))
 
 (use-package general
   :config
@@ -131,6 +75,86 @@
   (general-create-definer leader
     :states '(normal visual)
     :prefix "SPC"))
+
+(use-package nord-theme
+  :init
+  (defvar nord0 "#2E3440")
+  (defvar nord1 "#3B4252")
+  (defvar nord2 "#434C5E")
+  (defvar nord3 "#4C566A")
+  (defvar nord4 "#D8DEE9")
+  (defvar nord5 "#E5E9F0")
+  (defvar nord6 "#ECEFF4")
+  (defvar nord7 "#8FBCBB")
+  (defvar nord8 "#88C0D0")
+  (defvar nord9 "#81A1C1")
+  (defvar nord10 "#5E81AC")
+  (defvar nord11 "#BF616A")
+  (defvar nord12 "#D08770")
+  (defvar nord13 "#EBCB8B")
+  (defvar nord14 "#A3BE8C")
+  (defvar nord15 "#B48EAD")
+  :config
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (select-frame frame)
+                  (load-theme 'nord t)))
+    (load-theme 'nord t)))
+
+(use-package compile
+  :config
+  (setq compilation-ask-about-save nil
+        compilation-scroll-output 'first-error
+        compilation-read-command nil
+        compilation-always-kill t)
+  (custom-set-faces `(compilation-mode-line-exit ((t (:foreground ,nord14)))))
+  (custom-set-faces `(compilation-mode-line-fail ((t (:foreground ,nord11))))))
+
+(use-package project
+  :pin gnu
+  :general (leader "p" '(:keymap project-prefix-map)))
+
+(use-package org
+  :config
+  (setq org-directory "~/org"
+        org-agenda-files '("~/org/inbox.org"
+                           "~/org/projects.org"
+                           "~/org/reminders.org")
+        org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
+                             ("~/org/someday.org" :level . 1)
+                             ("~/org/reminders.org" :maxlevel . 2))
+        org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+        org-capture-templates '(("t" "Todo" entry
+                                 (file+headline "~/org/inbox.org" "Tasks")
+                                 "* TODO %i%?")
+                                ("r" "Reminder" entry
+                                 (file+headline "~/org/reminders.org" "Reminders")
+                                 "* %i%? \n %U")))
+  :general
+  (leader
+    "a" 'org-agenda
+    "c" 'org-capture))
+
+(use-package org-roam
+  :delight
+  :hook (after-init . org-roam-mode)
+  :custom (org-roam-directory (file-truename "~/org/roam/"))
+  :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-graph))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate))))
+
+(use-package highlight-numbers
+  :hook (prog-mode . highlight-numbers-mode)
+  :config (custom-set-faces `(highlight-numbers-number ((t (:foreground ,nord15))))))
+
+(use-package which-key
+  :delight
+  :config (which-key-mode))
 
 (use-package evil
   :init (setq evil-want-Y-yank-to-eol t)
@@ -183,18 +207,6 @@
   (setq amx-show-key-bindings nil)
   (amx-mode))
 
-(use-package org-roam
-  :delight
-  :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory (file-truename "~/org/roam/"))
-  :bind (:map org-roam-mode-map
-              (("C-c n l" . org-roam)
-               ("C-c n f" . org-roam-find-file)
-               ("C-c n g" . org-roam-graph))
-              :map org-mode-map
-              (("C-c n i" . org-roam-insert))
-              (("C-c n I" . org-roam-insert-immediate))))
-
 (use-package vterm
   :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
   :config
@@ -243,19 +255,6 @@
   :config
   (setq company-tooltip-maximum-width 80)
   (global-company-mode))
-
-(use-package projectile
-  :delight
-  :config
-  (setq projectile-completion-system 'ivy
-        projectile-project-search-path '("~/devel"))
-  (projectile-mode)
-  :general
-  (leader "p" '(:keymap projectile-command-map))
-  (:keymaps 'prog-mode-map
-            "C-c c" 'projectile-compile-project
-            "C-c t" 'projectile-test-project
-            "C-c r" 'projectile-run-project))
 
 (use-package flycheck)
 (use-package lsp-mode
