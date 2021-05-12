@@ -108,20 +108,13 @@
         compilation-scroll-output 'first-error
         compilation-read-command nil
         compilation-always-kill t)
-  (custom-set-faces `(compilation-mode-line-exit ((t (:foreground ,nord14)))))
-  (custom-set-faces `(compilation-mode-line-fail ((t (:foreground ,nord11))))))
+  (custom-set-faces
+   `(compilation-mode-line-exit ((t (:foreground ,nord14))))
+   `(compilation-mode-line-fail ((t (:foreground ,nord11))))))
 
 (use-package project
   :pin gnu
   :general (leader "p" '(:keymap project-prefix-map)))
-
-(use-package flymake
-  :config
-  ;; (set-face-attribute 'flymake-error nil :underline '(:color ,nord11 :style wave))
-  ;; (set-face-attribute 'flymake-warning nil :underline '(:color ,nord13 :style wave))
-  ;; (set-face-attribute 'flymake-note nil :underline '(:color ,nord14 :style wave))
-  :general (general-nmap "[e" 'flymake-goto-prev-error
-                         "]e" 'flymake-goto-next-error))
 
 (use-package org
   :config
@@ -264,9 +257,19 @@
   (setq company-tooltip-maximum-width 80)
   (global-company-mode))
 
-;; (use-package flycheck)
+(use-package flymake
+  :config
+  (custom-set-faces
+   `(flymake-error ((t (:underline (:color ,nord11 :style wave)))))
+   `(flymake-warning ((t (:underline (:color ,nord13 :style wave)))))
+   `(flymake-note ((t (:underline (:color ,nord14 :style wave))))))
+  :general (general-nmap "[e" 'flymake-goto-prev-error
+                         "]e" 'flymake-goto-next-error))
+
+(use-package flycheck)
 (use-package lsp-mode
-  :hook ((javascript-mode . lsp)
+  :hook ((js-mode . lsp)
+         (python-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
   (setq lsp-headerline-breadcrumb-enable nil)
