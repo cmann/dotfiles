@@ -115,6 +115,14 @@
   :pin gnu
   :general (leader "p" '(:keymap project-prefix-map)))
 
+(use-package flymake
+  :config
+  ;; (set-face-attribute 'flymake-error nil :underline '(:color ,nord11 :style wave))
+  ;; (set-face-attribute 'flymake-warning nil :underline '(:color ,nord13 :style wave))
+  ;; (set-face-attribute 'flymake-note nil :underline '(:color ,nord14 :style wave))
+  :general (general-nmap "[e" 'flymake-goto-prev-error
+                         "]e" 'flymake-goto-next-error))
+
 (use-package org
   :config
   (setq org-directory "~/org"
@@ -256,14 +264,21 @@
   (setq company-tooltip-maximum-width 80)
   (global-company-mode))
 
-(use-package flycheck)
+;; (use-package flycheck)
 (use-package lsp-mode
-  :hook ((prog-mode . lsp)
+  :hook ((javascript-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
   (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-completion-provider :capf))
+  (setq lsp-completion-provider :capf)
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]node_modules\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'"))
 (use-package lsp-ivy)
+(use-package lsp-python-ms
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp))))
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
