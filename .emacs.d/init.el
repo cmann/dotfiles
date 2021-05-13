@@ -14,6 +14,7 @@
 (electric-pair-mode)
 (show-paren-mode)
 (recentf-mode)
+(savehist-mode)
 
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 (add-hook 'prog-mode-hook 'hl-line-mode)
@@ -56,26 +57,6 @@
                                 "-o ControlMaster=auto "
                                 "-o ControlPersist=yes "))
 
-(require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
-
-(use-package delight)
-
-(use-package general
-  :config
-  (general-evil-setup)
-  (general-create-definer leader
-    :states '(normal visual)
-    :prefix "SPC"))
-
 (use-package nord-theme
   :init
   (defvar nord0 "#2E3440")
@@ -102,7 +83,17 @@
                   (load-theme 'nord t)))
     (load-theme 'nord t)))
 
+(use-package delight)
+
+(use-package general
+  :config
+  (general-evil-setup)
+  (general-create-definer leader
+    :states '(normal visual)
+    :prefix "SPC"))
+
 (use-package compile
+  :straight nil
   :config
   (setq compilation-ask-about-save nil
         compilation-scroll-output 'first-error
@@ -113,7 +104,6 @@
    `(compilation-mode-line-fail ((t (:foreground ,nord11))))))
 
 (use-package project
-  :pin gnu
   :general (leader "p" '(:keymap project-prefix-map)))
 
 (use-package org
@@ -171,7 +161,7 @@
     "k" 'kill-buffer-and-window
     "e" 'eval-buffer
     "g" 'grep-find
-    "i" 'counsel-imenu
+    "i" 'consult-imenu
     "o" 'other-window
     "1" 'delete-other-windows
     "2" (lambda () (interactive) (split-window-below) (other-window 1))
@@ -197,16 +187,13 @@
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode))
 
-(use-package counsel
-  :delight ivy-mode
-  :init (setq ivy-use-virtual-buffers t)
+(use-package selectrum
+  :config (selectrum-mode +1))
+(use-package selectrum-prescient
   :config
-  (require 'ivy)
-  (ivy-mode))
-(use-package amx
-  :config
-  (setq amx-show-key-bindings nil)
-  (amx-mode))
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
+(use-package consult)
 
 (use-package vterm
   :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
@@ -257,15 +244,6 @@
   (setq company-tooltip-maximum-width 80)
   (global-company-mode))
 
-(use-package flymake
-  :config
-  (custom-set-faces
-   `(flymake-error ((t (:underline (:color ,nord11 :style wave)))))
-   `(flymake-warning ((t (:underline (:color ,nord13 :style wave)))))
-   `(flymake-note ((t (:underline (:color ,nord14 :style wave))))))
-  :general (general-nmap "[e" 'flymake-goto-prev-error
-                         "]e" 'flymake-goto-next-error))
-
 (use-package flycheck)
 (use-package lsp-mode
   :hook ((js-mode . lsp)
@@ -276,7 +254,6 @@
   (setq lsp-completion-provider :capf)
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]node_modules\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'"))
-(use-package lsp-ivy)
 (use-package lsp-python-ms
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
