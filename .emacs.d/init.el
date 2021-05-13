@@ -104,6 +104,12 @@
    `(compilation-mode-line-fail ((t (:foreground ,nord11))))))
 
 (use-package project
+  :config
+  (defun cm--project-root-ignore-home (dir)
+    (if (file-equal-p dir "~/")
+        nil
+      dir))
+  (advice-add 'project-root :filter-return #'cm--project-root-ignore-home)
   :general (leader "p" '(:keymap project-prefix-map)))
 
 (use-package org
