@@ -238,12 +238,14 @@
           (vterm)))))
   :general ("C-`" 'visit-vterm))
 
-(use-package ace-jump-mode
+(use-package avy
   :config
-  (custom-set-faces `(ace-jump-face-background ((t (:foreground ,nord3))))
-                    `(ace-jump-face-foreground ((t (:foreground ,nord8)))))
-  (setq ace-jump-mode-scope 'global)
-  :general (leader "j" 'ace-jump-word-mode))
+  (setq avy-background t)
+  (setq avy-highlight-first nil)
+  (custom-set-faces `(avy-background-face ((t (:foreground ,nord3))))
+                    `(avy-lead-face ((t (:foreground ,nord8 :background ,nord0))))
+                    `(avy-lead-face-0 ((t (:foreground ,nord8 :background ,nord0)))))
+  :general (leader "j" 'avy-goto-word-1))
 
 (use-package company
   :delight
