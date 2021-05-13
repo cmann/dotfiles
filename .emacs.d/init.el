@@ -207,6 +207,14 @@
   (leader
     "b" 'consult-buffer
     "i" 'consult-imenu))
+(use-package embark)
+(use-package embark-consult
+  :after (embark consult)
+  :config
+  (add-to-list 'embark-exporters-alist
+               '(consult-git-grep . embark-consult-export-grep)
+               '(consult-ripgrep . embark-consult-export-grep))
+  :general ("M-s e" 'embark-export))
 
 (use-package vterm
   :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
