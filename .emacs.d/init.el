@@ -197,6 +197,7 @@
   :config
   (selectrum-prescient-mode +1)
   (prescient-persist-mode +1))
+
 (use-package consult
   :config
   (setq consult-project-root-function
@@ -204,17 +205,29 @@
           (when-let (project (project-current))
             (project-root project))))
   :general
+  (search-map
+   "o" 'consult-outline
+   "i" 'consult-imenu
+   "p" 'consult-project-imenu
+   "l" 'consult-line
+   "g" 'consult-grep
+   "r" 'consult-ripgrep
+   "G" 'consult-git-grep
+   "f" 'consult-find
+   "L" 'consult-locate)
   (leader
     "b" 'consult-buffer
-    "i" 'consult-imenu))
-(use-package embark)
+    "i" 'consult-imenu
+    "s" '(:keymap search-map)))
+(use-package embark
+  :general (minibuffer-local-map "C-e" 'embark-export))
 (use-package embark-consult
   :after (embark consult)
+  :demand t
   :config
   (add-to-list 'embark-exporters-alist
                '(consult-git-grep . embark-consult-export-grep)
-               '(consult-ripgrep . embark-consult-export-grep))
-  :general ("M-s e" 'embark-export))
+               '(consult-ripgrep . embark-consult-export-grep)))
 
 (use-package vterm
   :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
