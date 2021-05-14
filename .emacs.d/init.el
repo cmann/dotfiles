@@ -202,7 +202,7 @@
   (setq consult-project-root-function
         (lambda ()
           (when-let (project (project-current))
-            (car (project-roots project)))))
+            (project-root project))))
   :general
   (leader
     "b" 'consult-buffer
