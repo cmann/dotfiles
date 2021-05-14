@@ -165,7 +165,6 @@
     "f" 'find-file
     "k" 'kill-buffer-and-window
     "e" 'eval-buffer
-    "g" 'grep-find
     "o" 'other-window
     "1" 'delete-other-windows
     "2" (lambda () (interactive) (split-window-below) (other-window 1))
@@ -200,6 +199,7 @@
 
 (use-package consult
   :config
+  (setq consult-preview-key nil)
   (setq consult-project-root-function
         (lambda ()
           (when-let (project (project-current))
@@ -218,6 +218,7 @@
   (leader
     "b" 'consult-buffer
     "i" 'consult-imenu
+    "g" 'consult-ripgrep
     "s" '(:keymap search-map)))
 (use-package embark
   :general (minibuffer-local-map "C-e" 'embark-export))
