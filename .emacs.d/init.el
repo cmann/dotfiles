@@ -228,7 +228,15 @@
   :config
   (add-to-list 'embark-exporters-alist
                '(consult-git-grep . embark-consult-export-grep)
-               '(consult-ripgrep . embark-consult-export-grep)))
+               '(consult-ripgrep . embark-consult-export-grep))
+  (defun cm--split-and-swap (&rest args)
+    (cl-destructuring-bind (window major-mode)
+        (with-selected-window (next-window (selected-window))
+          (list (selected-window) major-mode))
+      (when (eq major-mode 'grep-mode)
+        (split-window-right)
+        (previous-buffer))))
+  (advice-add 'embark-consult-export-grep :after #'cm--split-and-swap))
 
 (use-package vterm
   :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
