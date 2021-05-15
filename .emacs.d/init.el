@@ -221,6 +221,15 @@
     "g" 'consult-ripgrep
     "s" '(:keymap search-map)))
 (use-package embark
+  :config
+  (defun cm--embark-export-other-window (orig-fun &rest args)
+    (when (= (count-windows) 1)
+      (split-window-right))
+    (other-window 1)
+    (let ((res (apply orig-fun args)))
+      (other-window 1)
+      res))
+  (advice-add 'embark-consult-export-grep :around #'cm--embark-export-other-window)
   :general (minibuffer-local-map "C-e" 'embark-export))
 (use-package embark-consult
   :after (embark consult)
@@ -228,15 +237,7 @@
   :config
   (add-to-list 'embark-exporters-alist
                '(consult-git-grep . embark-consult-export-grep)
-               '(consult-ripgrep . embark-consult-export-grep))
-  (defun cm--split-and-swap (&rest args)
-    (cl-destructuring-bind (window major-mode)
-        (with-selected-window (next-window (selected-window))
-          (list (selected-window) major-mode))
-      (when (eq major-mode 'grep-mode)
-        (split-window-right)
-        (previous-buffer))))
-  (advice-add 'embark-consult-export-grep :after #'cm--split-and-swap))
+               '(consult-ripgrep . embark-consult-export-grep)))
 
 (use-package vterm
   :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
