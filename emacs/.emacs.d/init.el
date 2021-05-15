@@ -46,10 +46,6 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(require 'grep)
-(grep-apply-setting 'grep-find-command
-                    '("rg -n -H --no-heading -e '' $(git rev-parse --show-toplevel || pwd)" . 27))
-
 (setq vc-handled-backends '(Git))
 (setq tramp-default-method "ssh")
 (customize-set-variable 'tramp-ssh-controlmaster-options
