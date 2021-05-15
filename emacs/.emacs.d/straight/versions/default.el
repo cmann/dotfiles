@@ -1,4 +1,4 @@
-(("ace-jump-mode" . "8351e2df4fbbeb2a4003f2fb39f46d33803f3dac")
+(("avy" . "e92cb37457b43336b765630dbfbea8ba4be601fa")
  ("company-mode" . "54fb45080755691793eefa2bd01539e0768c6f63")
  ("consult" . "b873ceeefcb80ae0a00aa5e9ce7d70a71680aa4b")
  ("dash.el" . "b9286a84975874b10493f1cb4ea051c501f51273")
@@ -11,6 +11,7 @@
  ("emacsmirror-mirror" . "4a5c489897c0b2f8da689e9a47a29fc42775a2dc")
  ("emacsql" . "6d8cd9366284b5a27268ff4b783e2c34573d5b60")
  ("emacsql-sqlite3" . "50aa9bdd76b0d18bf80526cff13a69fe306ee29c")
+ ("embark" . "d82f8c73fae4d2d7283838cf5111366384775977")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("evil" . "8dc0ccdc4c0246af87588a93812a23268f83ab94")
  ("evil-commentary" . "2dab6ac34d1617971768ad219d73af48f7473fec")
