@@ -179,7 +179,7 @@
   :after evil
   :delight
   :config
-  (setq undo-tree-history-directory-alist `((".*" . "~/emacs.d/undo"))
+  (setq undo-tree-history-directory-alist `((".*" . "~/.emacs.d/undo"))
         undo-tree-auto-save-history t)
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode))
