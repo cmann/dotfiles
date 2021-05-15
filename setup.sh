@@ -10,3 +10,8 @@ dnf install -y \
     google-chrome-stable \
     emacs \
     tmux \
+    fzf \
+
+curl -fsSL https://get.docker.com | sh -
+groupadd docker
+usermod -aG docker $SUDO_USER
