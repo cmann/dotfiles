@@ -291,11 +291,11 @@
   (setq lsp-completion-provider :capf)
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]node_modules\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'"))
-(use-package lsp-python-ms
-  :init (setq lsp-python-ms-auto-install-server t)
+(use-package lsp-pyright
   :hook (python-mode . (lambda ()
-                         (require 'lsp-python-ms)
-                         (lsp))))
+                         (require 'lsp-pyright)
+                         (lsp)))
+  :config (setq lsp-pyright-typechecking-mode "off"))
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
