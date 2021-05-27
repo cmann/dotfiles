@@ -11,3 +11,5 @@
 	prune = true
 [hub]
 	protocol = ssh
+[github]
+	user = cmann
