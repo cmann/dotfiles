@@ -299,6 +299,7 @@
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
+(use-package forge)
 
 (use-package yasnippet
   :delight yas-minor-mode
