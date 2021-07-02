@@ -13,3 +13,5 @@
 	protocol = ssh
 [github]
 	user = cmann
+[init]
+	defaultBranch = master
