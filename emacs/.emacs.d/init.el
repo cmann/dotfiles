@@ -361,5 +361,48 @@
 (general-def python-mode-map
   "C-c f" 'black-format-buffer)
 
+(transient-define-prefix openstack-dispatch ()
+  "Invoke an openstack command from a list of available commands."
+  :info-manual "(openstack)Top"
+  ["Nova"
+   [("i" "Instance" openstack-instance-dispatch)]])
+
+(transient-define-prefix openstack-instance-dispatch ()
+  "Create or modify an instance."
+  :info-manual "(openstack)Instance Top"
+  ["Nova"
+   [("c" "Create" openstack-instance-create)]])
+
+(transient-define-prefix openstack-instance-create ()
+  "Create an instance."
+  :info-manual "(openstack)Creating an instance"
+  ["Arguments"
+   (openstack:--image)]
+  [""
+   [("c" "Create" openstack-instance-create)]])
+
+(transient-define-argument openstack:--image ()
+  :description "Create server boot disk from this image"
+  :class 'transient-option
+  :key "-i"
+  :argument "--image"
+  :reader 'openstack-transient-read-image)
+
+(defun openstack-transient-read-image (prompt initial history)
+  (completing-read
+   prompt
+   (openstack-output-lines "image" "list" "-c" "Name" "-f" "value")
+   nil t initial history))
+
+(defcustom openstack-executable
+  "openstack"
+  "The Openstack executable used by openstack."
+  :group 'openstack-process
+  :type 'string)
+
+(defun openstack-output-lines (&rest args)
+  "Execute openstack with ARGS, returning its output."
+  (apply #'process-lines openstack-executable args))
+
 (provide 'init.el)
 ;;; init.el ends here
