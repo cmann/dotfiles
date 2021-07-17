@@ -373,25 +373,56 @@
   ["Nova"
    [("c" "Create" openstack-instance-create)]])
 
+(defun openstack-create-instance (&optional args)
+  (apply #'openstack-output-lines "server" "create" args))
+
 (transient-define-prefix openstack-instance-create ()
   "Create an instance."
   :info-manual "(openstack)Creating an instance"
   ["Arguments"
-   (openstack:--image)]
-  [""
-   [("c" "Create" openstack-instance-create)]])
+   (openstack:--image)
+   (openstack:--flavor)
+   (openstack:--key-name)]
+  [[""
+    ("c" "Create" openstack-create-instance)]])
 
 (transient-define-argument openstack:--image ()
   :description "Create server boot disk from this image"
   :class 'transient-option
   :key "-i"
-  :argument "--image"
+  :argument "--image "
   :reader 'openstack-transient-read-image)
+
+(transient-define-argument openstack:--flavor ()
+  :description "Create server with this flavor"
+  :class 'transient-option
+  :key "-f"
+  :argument "--flavor "
+  :reader 'openstack-transient-read-flavor)
+
+(transient-define-argument openstack:--key-name ()
+  :description "Keypair to inject into this server"
+  :class 'transient-option
+  :key "-k"
+  :argument "--key-name "
+  :reader 'openstack-transient-read-key-name)
 
 (defun openstack-transient-read-image (prompt initial history)
   (completing-read
    prompt
-   (openstack-output-lines "image" "list" "-c" "Name" "-f" "value")
+   (openstack-output-table "image" "list")
+   nil t initial history))
+
+(defun openstack-transient-read-flavor (prompt initial history)
+  (completing-read
+   prompt
+   (openstack-output-table "flavor" "list")
+   nil t initial history))
+
+(defun openstack-transient-read-key-name (prompt initial history)
+  (completing-read
+   prompt
+   (openstack-output-table "keypair" "list")
    nil t initial history))
 
 (defcustom openstack-executable
@@ -400,9 +431,14 @@
   :group 'openstack-process
   :type 'string)
 
+(defun openstack-output-table (&rest args)
+  (apply #'openstack-output-lines (append args '("-c" "Name" "-f" "value"))))
+
 (defun openstack-output-lines (&rest args)
   "Execute openstack with ARGS, returning its output."
-  (apply #'process-lines openstack-executable args))
+  ;; (apply #'process-lines openstack-executable "--os-cloud" "cameron" args))
+  (let ((cmd (concat ". ~/openrc/cameron-yeg.sh && openstack " (string-join args " "))))
+    (split-string (shell-command-to-string cmd) "\n")))
 
 (provide 'init.el)
 ;;; init.el ends here
