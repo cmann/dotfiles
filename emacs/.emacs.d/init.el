@@ -189,7 +189,7 @@
 
 (use-package consult
   :config
-  (setf (alist-get 'consult-buffer consult-config) '(:title nil))
+  (setf (alist-get 'consult-buffer consult-config) '(:group nil))
   (setq consult-preview-key nil)
   (setq consult-project-root-function
         (lambda ()
