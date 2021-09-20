@@ -126,6 +126,7 @@
 (use-package org-roam
   :delight
   :hook (after-init . org-roam-mode)
+  :init (setq org-roam-v2-ack t)
   :custom (org-roam-directory (file-truename "~/org/roam/"))
   :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
@@ -189,7 +190,8 @@
 
 (use-package consult
   :config
-  (setf (alist-get 'consult-buffer consult-config) '(:group nil))
+  (consult-customize
+   consult-buffer :group nil)
   (setq consult-preview-key nil)
   (setq consult-project-root-function
         (lambda ()
