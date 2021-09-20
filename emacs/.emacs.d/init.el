@@ -333,6 +333,8 @@
 
 (use-package go-mode
   :hook (go-mode . (lambda () (add-hook 'before-save-hook 'gofmt-before-save)))
+  :config
+  (setq gofmt-command "goimports")
   :general (:keymaps 'go-mode-map
                      "C-c f" 'gofmt))
 
