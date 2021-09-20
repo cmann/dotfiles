@@ -283,14 +283,21 @@
   (setq company-tooltip-maximum-width 80)
   (global-company-mode))
 
-(use-package flycheck)
+(use-package flycheck
+  :hook (sh-mode . flycheck-mode)
+  :config
+  (setq flycheck-display-errors-delay 0.5
+        flycheck-shellcheck-follow-sources nil)
+  (customize-set-variable
+   'flycheck-shellcheck-excluded-warnings '("SC1090")))
+
 (use-package lsp-mode
   :hook ((js-mode . lsp)
          (python-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-completion-provider :capf)
+  (setq lsp-headerline-breadcrumb-enable nil
+        lsp-completion-provider :capf)
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]node_modules\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'"))
 (use-package lsp-pyright
