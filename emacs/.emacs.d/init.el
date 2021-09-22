@@ -284,7 +284,7 @@
   (global-company-mode))
 
 (use-package flycheck
-  :hook (sh-mode . flycheck-mode)
+  :hook (sh-mode ruby-mode)
   :config
   (setq flycheck-display-errors-delay 0.5
         flycheck-shellcheck-follow-sources nil)
@@ -292,8 +292,7 @@
    'flycheck-shellcheck-excluded-warnings '("SC1090")))
 
 (use-package lsp-mode
-  :hook ((js-mode . lsp)
-         (python-mode . lsp)
+  :hook (((js-mode python-mode) . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
   (setq lsp-headerline-breadcrumb-enable nil
