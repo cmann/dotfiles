@@ -341,14 +341,6 @@
                      "C-c f" 'terraform-format-buffer))
 
 (use-package zig-mode
-  :config
-  (require 'lsp)
-  (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection (lsp-stdio-connection "zls")
-    :major-modes '(zig-mode)
-    :server-id 'zls))
   :general (:keymaps 'zig-mode-map
                      "C-c f" 'zig-format-buffer))
 
