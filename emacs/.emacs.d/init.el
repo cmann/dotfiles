@@ -147,6 +147,7 @@
   :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
          (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
+  (setq evil-motion-state-modes nil)
   (evil-mode)
   :general
   (leader
