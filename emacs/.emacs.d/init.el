@@ -123,7 +123,7 @@
 
 (use-package org-roam
   :delight
-  :hook (after-init . org-roam-mode)
+  :hook (after-init . org-roam-setup)
   :init (setq org-roam-v2-ack t)
   :custom (org-roam-directory (file-truename "~/org/roam/"))
   :bind (:map org-roam-mode-map
