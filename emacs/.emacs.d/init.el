@@ -291,7 +291,7 @@
    'flycheck-shellcheck-excluded-warnings '("SC1090")))
 
 (use-package lsp-mode
-  :hook (((js-mode python-mode) . lsp)
+  :hook ((js-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
   (setq lsp-headerline-breadcrumb-enable nil
