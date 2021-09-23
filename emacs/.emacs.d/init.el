@@ -217,7 +217,6 @@
   (defun cm--embark-export-other-window (orig-fun &rest args)
     (when (= (count-windows) 1)
       (split-window-right))
-    (other-window 1)
     (let ((res (apply orig-fun args)))
       (other-window 1)
       res))
