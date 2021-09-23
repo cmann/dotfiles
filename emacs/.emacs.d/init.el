@@ -10,16 +10,14 @@
 (blink-cursor-mode -1)
 
 (column-number-mode)
-(global-auto-revert-mode)
 (electric-pair-mode)
 (show-paren-mode)
 (recentf-mode)
 (savehist-mode)
-
+(global-auto-revert-mode)
 (add-hook 'dired-mode-hook 'auto-revert-mode)
-(add-hook 'prog-mode-hook 'hl-line-mode)
-(add-hook 'text-mode-hook 'hl-line-mode)
-(setq hl-line-sticky-flag nil)
+(global-hl-line-mode)
+(add-hook 'comint-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
@@ -146,8 +144,8 @@
 
 (use-package evil
   :init (setq evil-want-Y-yank-to-eol t)
-  :hook ((evil-visual-state-entry . (lambda() (hl-line-mode -1)))
-         (evil-visual-state-exit  . (lambda() (hl-line-mode +1))))
+  :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
+         (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
   (evil-mode)
   :general
@@ -233,7 +231,7 @@
                '(consult-ripgrep . embark-consult-export-grep)))
 
 (use-package vterm
-  :hook ('vterm-mode . (lambda () (hl-line-mode -1)))
+  :hook ('vterm-mode . (lambda () (setq-local global-hl-line-mode nil)))
   :config
   (evil-set-initial-state 'vterm-mode 'emacs)
   (setq vterm-shell "bash"
