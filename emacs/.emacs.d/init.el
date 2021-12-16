@@ -1,8 +1,12 @@
 ;;; init --- Emacs configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
+(load-file (expand-file-name
+            (cond ((eq system-type 'darwin) "darwin.el")
+                  ((eq system-type 'gnu/linux) "linux.el"))
+            user-emacs-directory))
+
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(font . "Iosevka-12"))
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
