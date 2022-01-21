@@ -334,7 +334,9 @@
                      "C-c t" 'rust-test))
 
 (use-package go-mode
-  :hook (go-mode . (lambda () (add-hook 'before-save-hook 'gofmt-before-save)))
+  :hook (go-mode . (lambda ()
+                     (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                     (add-hook 'before-save-hook #'lsp-organize-imports t t)))
   :config
   (setq gofmt-command "goimports")
   :general (:keymaps 'go-mode-map
