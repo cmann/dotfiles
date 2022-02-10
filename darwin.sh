@@ -10,7 +10,9 @@ sudo port install \
      ripgrep \
      fd \
      python310 \
-     py310-pip
+     py310-pip \
+     nodejs16 \
+     npm8
 
 sudo port select --set python python310
 sudo port select --set python3 python310

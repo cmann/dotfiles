@@ -81,6 +81,10 @@
                   (load-theme 'nord t)))
     (load-theme 'nord t)))
 
+(use-package exec-path-from-shell
+  :config (when (memq window-system '(mac ns x))
+            (exec-path-from-shell-initialize)))
+
 (use-package delight)
 
 (use-package general
