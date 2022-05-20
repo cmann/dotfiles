@@ -354,6 +354,9 @@
   :general (:keymaps 'zig-mode-map
                      "C-c f" 'zig-format-buffer))
 
+(use-package sql
+  :config (sql-set-product 'postgres))
+
 (use-package yaml-mode)
 (use-package markdown-mode)
 (use-package dockerfile-mode)
