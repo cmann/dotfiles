@@ -330,6 +330,7 @@
   :config (custom-set-faces `(sh-heredoc ((t (:foreground ,nord14))))))
 
 (use-package rust-mode
+  :hook (rust-mode . lsp)
   :general (:keymaps 'rust-mode-map
                      "C-c C-f" nil
                      "C-c c" 'rust-compile
