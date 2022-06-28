@@ -7,6 +7,14 @@
             user-emacs-directory))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(use-package tramp
+  :straight (:build t :pre-build (("make" "autoloads")))
+  :config
+  (setq tramp-default-method "ssh")
+  (customize-set-variable 'tramp-ssh-controlmaster-options
+                          (concat "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
+                                  "-o ControlMaster=auto "
+                                  "-o ControlPersist=yes ")))
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -49,11 +57,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq vc-handled-backends '(Git))
-(setq tramp-default-method "ssh")
-(customize-set-variable 'tramp-ssh-controlmaster-options
-                        (concat "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
-                                "-o ControlMaster=auto "
-                                "-o ControlPersist=yes "))
 
 (use-package nord-theme
   :init
