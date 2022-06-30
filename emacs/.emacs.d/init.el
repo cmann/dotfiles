@@ -7,6 +7,7 @@
             user-emacs-directory))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (use-package tramp
   :straight (:build t :pre-build (("make" "autoloads")))
   :config
@@ -287,33 +288,19 @@
                     `(avy-lead-face-0 ((t (:foreground ,nord8 :background ,nord0)))))
   :general (leader "j" 'avy-goto-word-1))
 
+(use-package eglot)
+
+(use-package flymake
+  :config
+  (custom-set-faces `(flymake-note ((t (:underline (:style wave, :color ,nord14)))))
+                    `(flymake-warning ((t (:underline (:style wave, :color ,nord13)))))
+                    `(flymake-error ((t (:underline (:style wave, :color ,nord11)))))))
+
 (use-package company
   :delight
   :config
   (setq company-tooltip-maximum-width 80)
   (global-company-mode))
-
-(use-package flycheck
-  :hook (sh-mode ruby-mode)
-  :config
-  (setq flycheck-display-errors-delay 0.5
-        flycheck-shellcheck-follow-sources nil)
-  (customize-set-variable
-   'flycheck-shellcheck-excluded-warnings '("SC1090")))
-
-(use-package lsp-mode
-  :hook ((js-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
-  :config
-  (setq lsp-headerline-breadcrumb-enable nil
-        lsp-completion-provider :capf)
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]node_modules\\'")
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'"))
-(use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp)))
-  :config (setq lsp-pyright-typechecking-mode "off"))
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
@@ -333,7 +320,6 @@
   :config (custom-set-faces `(sh-heredoc ((t (:foreground ,nord14))))))
 
 (use-package rust-mode
-  :hook (rust-mode . lsp)
   :general (:keymaps 'rust-mode-map
                      "C-c C-f" nil
                      "C-c c" 'rust-compile
@@ -343,8 +329,8 @@
 
 (use-package go-mode
   :hook (go-mode . (lambda ()
-                     (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                     (add-hook 'before-save-hook #'lsp-organize-imports t t)))
+                     (add-hook 'before-save-hook #'eglot-format-buffer t t)
+                     (add-hook 'before-save-hook #'eglot-code-action-organize-imports t t)))
   :config
   (setq gofmt-command "goimports")
   :general (:keymaps 'go-mode-map
