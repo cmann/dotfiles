@@ -53,8 +53,6 @@
               tab-width 4)
 (setq-default js-indent-level 2)
 
-(add-to-list 'completion-styles 'flex)
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq vc-handled-backends '(Git))
@@ -193,12 +191,11 @@
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode))
 
-(use-package selectrum
-  :config (selectrum-mode +1))
-(use-package selectrum-prescient
-  :config
-  (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1))
+(use-package vertico
+  :init (vertico-mode))
+
+(use-package orderless
+  :config (setq completion-styles '(orderless basic)))
 
 (use-package consult
   :config
