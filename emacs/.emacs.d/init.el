@@ -222,6 +222,7 @@
     "i" 'consult-imenu
     "g" 'consult-ripgrep
     "s" '(:keymap search-map)))
+
 (use-package embark
   :config
   (defun cm--embark-export-other-window (orig-fun &rest args)
@@ -231,7 +232,12 @@
       (other-window 1)
       res))
   (advice-add 'embark-consult-export-grep :around #'cm--embark-export-other-window)
-  :general (minibuffer-local-map "C-e" 'embark-export))
+  :general
+  (general-override-mode-map
+   :states '(normal emacs)
+   "C-." 'embark-act
+   "M-." 'embark-dwim))
+
 (use-package embark-consult
   :after (embark consult)
   :demand t
