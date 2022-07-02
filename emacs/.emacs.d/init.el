@@ -202,10 +202,6 @@
   (consult-customize
    consult-buffer :group nil)
   (setq consult-preview-key nil)
-  (setq consult-project-root-function
-        (lambda ()
-          (when-let (project (project-current))
-            (project-root project))))
   :general
   (search-map
    "o" 'consult-outline
@@ -224,14 +220,6 @@
     "s" '(:keymap search-map)))
 
 (use-package embark
-  :config
-  (defun cm--embark-export-other-window (orig-fun &rest args)
-    (when (= (count-windows) 1)
-      (split-window-right))
-    (let ((res (apply orig-fun args)))
-      (other-window 1)
-      res))
-  (advice-add 'embark-consult-export-grep :around #'cm--embark-export-other-window)
   :general
   (general-override-mode-map
    :states '(normal emacs)
@@ -242,12 +230,7 @@
    "M-." 'embark-dwim))
 
 (use-package embark-consult
-  :after (embark consult)
-  :demand t
-  :config
-  (add-to-list 'embark-exporters-alist
-               '(consult-git-grep . embark-consult-export-grep)
-               '(consult-ripgrep . embark-consult-export-grep)))
+  :after (embark consult))
 
 (use-package vterm
   :hook ('vterm-mode . (lambda () (setq-local global-hl-line-mode nil)))
