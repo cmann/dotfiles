@@ -158,7 +158,10 @@
          (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
   (setq evil-motion-state-modes nil)
-  (evil-set-initial-state 'help-mode 'emacs)
+  (dolist (mode '(help-mode
+                  compilation-mode
+                  xref--xref-buffer-mode))
+    (evil-set-initial-state mode 'emacs))
   (evil-mode)
   :general
   (leader
