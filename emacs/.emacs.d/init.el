@@ -236,6 +236,9 @@
   (general-override-mode-map
    :states '(normal emacs)
    "C-." 'embark-act
+   "M-." 'embark-dwim)
+  (minibuffer-local-map
+   "C-." 'embark-act
    "M-." 'embark-dwim))
 
 (use-package embark-consult
