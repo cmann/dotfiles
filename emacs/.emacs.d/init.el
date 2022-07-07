@@ -252,25 +252,12 @@
                     `(vterm-color-magenta ((t (:foreground ,nord15 :background ,nord15))))
                     `(vterm-color-cyan    ((t (:foreground ,nord8  :background ,nord7))))
                     `(vterm-color-white   ((t (:foreground ,nord5  :background ,nord6)))))
-  (defun visit-vterm ()
+  (defun vterm-toggle ()
     (interactive)
-    (let ((term-buffer (get-buffer "vterm")))
-      (if (eq major-mode 'vterm-mode)
-          (if (term-check-proc (buffer-name))
-              (if (string= "*vterm*" (buffer-name))
-                  (previous-buffer)
-                (if term-buffer
-                    (switch-to-buffer "vterm")
-                  (vterm)))
-            (kill-buffer (buffer-name))
-            (vterm))
-        (if term-buffer
-            (if (term-check-proc "vterm")
-                (switch-to-buffer "vterm")
-              (kill-buffer "vterm")
-              (vterm))
-          (vterm)))))
-  :general ("C-`" 'visit-vterm))
+    (if (eq major-mode 'vterm-mode)
+        (previous-buffer)
+      (vterm)))
+  :general ("C-`" 'vterm-toggle))
 
 (use-package avy
   :config
