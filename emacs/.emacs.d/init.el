@@ -159,6 +159,7 @@
   :config
   (dolist (mode '(help-mode
                   compilation-mode
+                  dired-mode
                   xref--xref-buffer-mode))
     (evil-set-initial-state mode 'emacs))
   (evil-mode)
