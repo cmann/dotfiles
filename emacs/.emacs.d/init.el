@@ -173,6 +173,7 @@
     "1" 'delete-other-windows
     "2" (lambda () (interactive) (split-window-below) (other-window 1))
     "3" (lambda () (interactive) (split-window-right) (other-window 1))
+    "4" '(:keymap ctl-x-4-map)
     "0" 'delete-window)
   (general-nmap
     "]q" 'next-error
