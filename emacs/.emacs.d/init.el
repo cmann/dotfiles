@@ -153,16 +153,18 @@
   :config (which-key-mode))
 
 (use-package evil
-  :init (setq evil-want-Y-yank-to-eol t)
+  :init (customize-set-variable 'evil-want-Y-yank-to-eol t)
   :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
          (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
-  (setq evil-motion-state-modes nil)
   (dolist (mode '(help-mode
                   compilation-mode
                   xref--xref-buffer-mode))
     (evil-set-initial-state mode 'emacs))
   (evil-mode)
+  :custom
+  (evil-undo-system 'undo-redo)
+  (evil-motion-state-modes nil)
   :general
   (leader
     "SPC" 'execute-extended-command
@@ -186,14 +188,6 @@
   :config (evil-commentary-mode))
 (use-package evil-lion
   :config (evil-lion-mode))
-(use-package undo-tree
-  :after evil
-  :delight
-  :config
-  (setq undo-tree-history-directory-alist `((".*" . "~/.emacs.d/undo"))
-        undo-tree-auto-save-history t)
-  (evil-set-undo-system 'undo-tree)
-  (global-undo-tree-mode))
 
 (use-package vertico
   :init (vertico-mode))
