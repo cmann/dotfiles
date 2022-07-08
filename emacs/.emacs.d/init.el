@@ -17,45 +17,51 @@
                                   "-o ControlMaster=auto "
                                   "-o ControlPersist=yes ")))
 
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(blink-cursor-mode -1)
+(use-package emacs
+  :straight nil
 
-(column-number-mode)
-(electric-pair-mode)
-(show-paren-mode)
-(recentf-mode)
-(savehist-mode)
-(global-auto-revert-mode)
-(add-hook 'dired-mode-hook 'auto-revert-mode)
-(global-hl-line-mode)
-(add-hook 'comint-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+  :hook
+  (dired-mode-hook . auto-revert-mode)
+  (comint-mode-hook . (lambda () (setq-local global-hl-line-mode nil)))
 
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024))
-(setq ring-bell-function 'ignore)
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(setq require-final-newline t)
-(setq create-lockfiles nil)
-(setq vc-make-backup-files t
-      version-control t
-      backup-by-copying t
-      kept-new-versions 10
-      kept-old-versions 0
-      delete-old-versions t
-      backup-directory-alist '(("." . "~/.emacs.d/backups/")))
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
+  :config
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (blink-cursor-mode -1)
+  (column-number-mode)
+  (electric-pair-mode)
+  (show-paren-mode)
+  (recentf-mode)
+  (savehist-mode)
+  (global-auto-revert-mode)
+  (global-hl-line-mode)
 
-(setq-default indent-tabs-mode nil
-              tab-width 4)
-(setq-default js-indent-level 2)
+  :custom
+  (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (use-short-answers t)
+  (auto-revert-remote-files t)
+  (gc-cons-threshold 100000000)
+  (read-process-output-max (* 1024 1024))
+  (ring-bell-function 'ignore)
+  (require-final-newline t)
+  (create-lockfiles nil)
 
-(defalias 'yes-or-no-p 'y-or-n-p)
+  (vc-handled-backends '(Git))
+  (vc-make-backup-files t)
+  (version-control t)
+  (backup-by-copying t)
+  (kept-new-versions 10)
+  (kept-old-versions 0) (delete-old-versions t)
+  (backup-directory-alist '(("." . "~/.emacs.d/backups/")))
 
-(setq vc-handled-backends '(Git))
+  (scroll-margin 0)
+  (scroll-conservatively 100000)
+  (scroll-preserve-screen-position 1)
+
+  (indent-tabs-mode nil)
+  (tab-width 4)
+  (js-indent-level 2))
 
 (use-package nord-theme
   :init
