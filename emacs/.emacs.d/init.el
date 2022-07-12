@@ -267,7 +267,7 @@
   (custom-set-faces `(avy-background-face ((t (:foreground ,nord3))))
                     `(avy-lead-face ((t (:foreground ,nord8 :background ,nord0))))
                     `(avy-lead-face-0 ((t (:foreground ,nord8 :background ,nord0)))))
-  :general (leader "j" 'avy-goto-word-1))
+  :general (leader "j" 'avy-goto-char-timer))
 
 (use-package eglot)
 
