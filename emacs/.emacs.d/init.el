@@ -300,6 +300,11 @@
   :mode ("\\.bashrc\\'" . sh-mode)
   :config (custom-set-faces `(sh-heredoc ((t (:foreground ,nord14))))))
 
+(use-package python-mode
+  :straight nil
+  :general (:keymaps 'python-mode-map
+                     "C-c f" 'black-format-buffer))
+
 (use-package rust-mode
   :general (:keymaps 'rust-mode-map
                      "C-c C-f" nil
@@ -334,17 +339,17 @@
 (use-package typescript-mode)
 (use-package php-mode)
 
-(defun buffer-local-file-name ()
-  (if (file-remote-p buffer-file-name)
-      (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
-    (buffer-file-name)))
-
 (defun black-format-buffer ()
+  "Formats the buffer using `black'"
   (interactive)
-  (shell-command (concat "black " (buffer-local-file-name))))
-
-(general-def python-mode-map
-  "C-c f" 'black-format-buffer)
+  (shell-command-on-region
+   (point-min)
+   (point-max)
+   "black -"
+   (current-buffer)
+   t
+   "*Black Error Buffer*"
+   t))
 
 (provide 'init.el)
 ;;; init.el ends here
