@@ -40,12 +40,17 @@
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
   (use-short-answers t)
-  (auto-revert-remote-files t)
   (gc-cons-threshold 100000000)
   (read-process-output-max (* 1024 1024))
   (ring-bell-function 'ignore)
   (require-final-newline t)
   (create-lockfiles nil)
+
+  (scroll-margin 0)
+  (scroll-conservatively 100000)
+  (scroll-preserve-screen-position 1)
+
+  (dired-listing-switches "-alh")
 
   (vc-handled-backends '(Git))
   (vc-make-backup-files t)
@@ -54,10 +59,6 @@
   (kept-new-versions 10)
   (kept-old-versions 0) (delete-old-versions t)
   (backup-directory-alist '(("." . "~/.emacs.d/backups/")))
-
-  (scroll-margin 0)
-  (scroll-conservatively 100000)
-  (scroll-preserve-screen-position 1)
 
   (indent-tabs-mode nil)
   (tab-width 4)
@@ -338,6 +339,7 @@
 (use-package dockerfile-mode)
 (use-package typescript-mode)
 (use-package php-mode)
+(use-package pyvenv)
 
 (defun black-format-buffer ()
   "Formats the buffer using `black'"
