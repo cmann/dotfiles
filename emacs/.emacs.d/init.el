@@ -115,9 +115,9 @@
         compilation-scroll-output 'first-error
         compilation-read-command nil
         compilation-always-kill t)
-  (custom-set-faces
-   `(compilation-mode-line-exit ((t (:foreground ,nord14))))
-   `(compilation-mode-line-fail ((t (:foreground ,nord11))))))
+  :custom-face
+  (compilation-mode-line-exit ((t (:foreground ,nord14))))
+  (compilation-mode-line-fail ((t (:foreground ,nord11)))))
 
 (use-package project
   :general (leader "p" '(:keymap project-prefix-map)))
@@ -158,7 +158,7 @@
 
 (use-package highlight-numbers
   :hook (prog-mode . highlight-numbers-mode)
-  :config (custom-set-faces `(highlight-numbers-number ((t (:foreground ,nord15))))))
+  :custom-face (highlight-numbers-number ((t (:foreground ,nord15)))))
 
 (use-package which-key
   :delight
@@ -252,38 +252,40 @@
   (setq vterm-shell "bash"
         vterm-max-scrollback 10000
         vterm-kill-buffer-on-exit t)
-  (custom-set-faces `(vterm-color-default ((t (:foreground ,nord4  :background ,nord0))))
-                    `(vterm-color-black   ((t (:foreground ,nord1  :background ,nord3))))
-                    `(vterm-color-red     ((t (:foreground ,nord11 :background ,nord11))))
-                    `(vterm-color-green   ((t (:foreground ,nord14 :background ,nord14))))
-                    `(vterm-color-yellow  ((t (:foreground ,nord13 :background ,nord13))))
-                    `(vterm-color-blue    ((t (:foreground ,nord9  :background ,nord9))))
-                    `(vterm-color-magenta ((t (:foreground ,nord15 :background ,nord15))))
-                    `(vterm-color-cyan    ((t (:foreground ,nord8  :background ,nord7))))
-                    `(vterm-color-white   ((t (:foreground ,nord5  :background ,nord6)))))
   (defun vterm-toggle ()
     (interactive)
     (if (eq major-mode 'vterm-mode)
         (previous-buffer)
       (vterm)))
+  :custom-face
+  (vterm-color-default ((t (:foreground ,nord4  :background ,nord0))))
+  (vterm-color-black   ((t (:foreground ,nord1  :background ,nord3))))
+  (vterm-color-red     ((t (:foreground ,nord11 :background ,nord11))))
+  (vterm-color-green   ((t (:foreground ,nord14 :background ,nord14))))
+  (vterm-color-yellow  ((t (:foreground ,nord13 :background ,nord13))))
+  (vterm-color-blue    ((t (:foreground ,nord9  :background ,nord9))))
+  (vterm-color-magenta ((t (:foreground ,nord15 :background ,nord15))))
+  (vterm-color-cyan    ((t (:foreground ,nord8  :background ,nord7))))
+  (vterm-color-white   ((t (:foreground ,nord5  :background ,nord6))))
   :general ("C-`" 'vterm-toggle))
 
 (use-package avy
   :config
   (setq avy-background t)
   (setq avy-highlight-first nil)
-  (custom-set-faces `(avy-background-face ((t (:foreground ,nord3))))
-                    `(avy-lead-face ((t (:foreground ,nord8 :background ,nord0))))
-                    `(avy-lead-face-0 ((t (:foreground ,nord8 :background ,nord0)))))
+  :custom-face
+  (avy-background-face ((t (:foreground ,nord3))))
+  (avy-lead-face ((t (:foreground ,nord8 :background ,nord0))))
+  (avy-lead-face-0 ((t (:foreground ,nord8 :background ,nord0))))
   :general (leader "j" 'avy-goto-char-timer))
 
 (use-package eglot)
 
 (use-package flymake
-  :config
-  (custom-set-faces `(flymake-note ((t (:underline (:style wave, :color ,nord14)))))
-                    `(flymake-warning ((t (:underline (:style wave, :color ,nord13)))))
-                    `(flymake-error ((t (:underline (:style wave, :color ,nord11)))))))
+  :custom-face
+  (flymake-note ((t (:underline (:style wave, :color ,nord14)))))
+  (flymake-warning ((t (:underline (:style wave, :color ,nord13)))))
+  (flymake-error ((t (:underline (:style wave, :color ,nord11))))))
 
 (use-package corfu
   :custom-face
@@ -307,7 +309,7 @@
 
 (use-package sh-script
   :mode ("\\.bashrc\\'" . sh-mode)
-  :config (custom-set-faces `(sh-heredoc ((t (:foreground ,nord14))))))
+  :custom-face (sh-heredoc ((t (:foreground ,nord14)))))
 
 (use-package python-mode
   :straight nil
