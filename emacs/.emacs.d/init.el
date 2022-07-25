@@ -61,7 +61,8 @@
   (version-control t)
   (backup-by-copying t)
   (kept-new-versions 10)
-  (kept-old-versions 0) (delete-old-versions t)
+  (kept-old-versions 0)
+  (delete-old-versions t)
   (backup-directory-alist '(("." . "~/.emacs.d/backups/")))
 
   (indent-tabs-mode nil)
