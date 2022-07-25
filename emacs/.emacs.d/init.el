@@ -45,6 +45,7 @@
   (ring-bell-function 'ignore)
   (require-final-newline t)
   (create-lockfiles nil)
+  (native-comp-async-report-warnings-errors 'silent)
 
   (scroll-margin 0)
   (scroll-conservatively 100000)
