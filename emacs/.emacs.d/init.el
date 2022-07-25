@@ -205,7 +205,9 @@
   :init (vertico-mode))
 
 (use-package orderless
-  :config (setq completion-styles '(orderless basic)))
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package consult
   :config
