@@ -50,6 +50,9 @@
   (scroll-conservatively 100000)
   (scroll-preserve-screen-position 1)
 
+  (tab-always-indent 'complete)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+
   (dired-listing-switches "-alh")
 
   (vc-handled-backends '(Git))
@@ -278,11 +281,12 @@
                     `(flymake-warning ((t (:underline (:style wave, :color ,nord13)))))
                     `(flymake-error ((t (:underline (:style wave, :color ,nord11)))))))
 
-(use-package company
-  :delight
+(use-package corfu
+  :custom-face
+  (corfu-default ((t (:background ,nord1))))
+  (corfu-current ((t (:background ,nord3))))
   :config
-  (setq company-tooltip-maximum-width 80)
-  (global-company-mode))
+  (global-corfu-mode))
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
