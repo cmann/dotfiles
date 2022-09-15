@@ -244,24 +244,21 @@
   (setq vterm-shell "bash"
         vterm-max-scrollback 10000
         vterm-kill-buffer-on-exit t)
-  (defun vterm-toggle ()
-    (interactive)
-    (if (eq major-mode 'vterm-mode)
-        (previous-buffer)
-      (vterm)))
   (defun project-vterm-toggle ()
     (interactive)
     (require 'comint)
     (let* ((default-directory (project-root (project-current t)))
            (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
            (vterm-buffer (get-buffer default-project-vterm-name)))
-      (if (and vterm-buffer (not current-prefix-arg))
-          (if (comint-check-proc vterm-buffer)
-              (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-            (let ((current-prefix-arg 'vterm-buffer))
-              (call-interactively 'vterm)))
-        (let ((current-prefix-arg (generate-new-buffer-name default-project-vterm-name)))
-          (call-interactively 'vterm)))))
+      (if (eq major-mode 'vterm-mode)
+          (previous-buffer)
+        (if (and vterm-buffer (not current-prefix-arg))
+            (if (comint-check-proc vterm-buffer)
+                (switch-to-buffer vterm-buffer)
+              (let ((current-prefix-arg 'vterm-buffer))
+                (call-interactively 'vterm)))
+          (let ((current-prefix-arg (generate-new-buffer-name default-project-vterm-name)))
+            (call-interactively 'vterm))))))
   :custom-face
   (vterm-color-default ((t (:foreground ,nord4  :background ,nord0))))
   (vterm-color-black   ((t (:foreground ,nord1  :background ,nord3))))
@@ -272,7 +269,7 @@
   (vterm-color-magenta ((t (:foreground ,nord15 :background ,nord15))))
   (vterm-color-cyan    ((t (:foreground ,nord8  :background ,nord7))))
   (vterm-color-white   ((t (:foreground ,nord5  :background ,nord6))))
-  :general ("C-`" 'vterm-toggle))
+  :general ("C-`" 'project-vterm-toggle))
 
 (use-package avy
   :config
