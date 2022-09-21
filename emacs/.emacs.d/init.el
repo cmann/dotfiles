@@ -8,6 +8,17 @@
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(add-to-list 'custom-theme-load-path (expand-file-name
+                                      "themes"
+                                      user-emacs-directory))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (select-frame frame)
+                (load-theme 'nord t)))
+  (load-theme 'nord t))
+
 (use-package tramp
   :straight (:build t :pre-build (("make" "autoloads")))
   :config
@@ -69,32 +80,6 @@
   (tab-width 4)
   (js-indent-level 2))
 
-(use-package nord-theme
-  :init
-  (defvar nord0 "#2E3440")
-  (defvar nord1 "#3B4252")
-  (defvar nord2 "#434C5E")
-  (defvar nord3 "#4C566A")
-  (defvar nord4 "#D8DEE9")
-  (defvar nord5 "#E5E9F0")
-  (defvar nord6 "#ECEFF4")
-  (defvar nord7 "#8FBCBB")
-  (defvar nord8 "#88C0D0")
-  (defvar nord9 "#81A1C1")
-  (defvar nord10 "#5E81AC")
-  (defvar nord11 "#BF616A")
-  (defvar nord12 "#D08770")
-  (defvar nord13 "#EBCB8B")
-  (defvar nord14 "#A3BE8C")
-  (defvar nord15 "#B48EAD")
-  :config
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (select-frame frame)
-                  (load-theme 'nord t)))
-    (load-theme 'nord t)))
-
 (use-package exec-path-from-shell
   :config (when (memq window-system '(mac ns x))
             (exec-path-from-shell-initialize)))
@@ -114,10 +99,7 @@
   (setq compilation-ask-about-save nil
         compilation-scroll-output 'first-error
         compilation-read-command nil
-        compilation-always-kill t)
-  :custom-face
-  (compilation-mode-line-exit ((t (:foreground ,nord14))))
-  (compilation-mode-line-fail ((t (:foreground ,nord11)))))
+        compilation-always-kill t))
 
 (use-package project
   :general (leader "p" '(:keymap project-prefix-map)))
@@ -149,8 +131,7 @@
   :custom (org-roam-directory (file-truename "~/org/roam/")))
 
 (use-package highlight-numbers
-  :hook (prog-mode . highlight-numbers-mode)
-  :custom-face (highlight-numbers-number ((t (:foreground ,nord15)))))
+  :hook (prog-mode . highlight-numbers-mode))
 
 (use-package which-key
   :delight
@@ -259,42 +240,22 @@
                 (call-interactively 'vterm)))
           (let ((current-prefix-arg (generate-new-buffer-name default-project-vterm-name)))
             (call-interactively 'vterm))))))
-  :custom-face
-  (vterm-color-default ((t (:foreground ,nord4  :background ,nord0))))
-  (vterm-color-black   ((t (:foreground ,nord1  :background ,nord3))))
-  (vterm-color-red     ((t (:foreground ,nord11 :background ,nord11))))
-  (vterm-color-green   ((t (:foreground ,nord14 :background ,nord14))))
-  (vterm-color-yellow  ((t (:foreground ,nord13 :background ,nord13))))
-  (vterm-color-blue    ((t (:foreground ,nord9  :background ,nord9))))
-  (vterm-color-magenta ((t (:foreground ,nord15 :background ,nord15))))
-  (vterm-color-cyan    ((t (:foreground ,nord8  :background ,nord7))))
-  (vterm-color-white   ((t (:foreground ,nord5  :background ,nord6))))
-  :general ("C-`" 'project-vterm-toggle))
+  :general
+  ("C-`" 'project-vterm-toggle))
 
 (use-package avy
   :config
   (setq avy-background t)
   (setq avy-highlight-first nil)
-  :custom-face
-  (avy-background-face ((t (:foreground ,nord3))))
-  (avy-lead-face ((t (:foreground ,nord8 :background ,nord0))))
-  (avy-lead-face-0 ((t (:foreground ,nord8 :background ,nord0))))
-  :general (leader "j" 'avy-goto-char-timer))
+  :general
+  (leader "j" 'avy-goto-char-timer))
 
 (use-package eglot)
 
-(use-package flymake
-  :custom-face
-  (flymake-note ((t (:underline (:style wave, :color ,nord14)))))
-  (flymake-warning ((t (:underline (:style wave, :color ,nord13)))))
-  (flymake-error ((t (:underline (:style wave, :color ,nord11))))))
+(use-package flymake)
 
 (use-package corfu
-  :custom-face
-  (corfu-default ((t (:background ,nord1))))
-  (corfu-current ((t (:background ,nord3))))
-  :config
-  (global-corfu-mode))
+  :config (global-corfu-mode))
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
@@ -310,8 +271,7 @@
   :hook (prog-mode . ws-butler-mode))
 
 (use-package sh-script
-  :mode ("\\.bashrc\\'" . sh-mode)
-  :custom-face (sh-heredoc ((t (:foreground ,nord14)))))
+  :mode ("\\.bashrc\\'" . sh-mode))
 
 (use-package python-mode
   :straight nil
