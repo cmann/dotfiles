@@ -1,24 +1,6 @@
 ;;; init --- Emacs configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
-(load-file (expand-file-name
-            (cond ((eq system-type 'darwin) "darwin.el")
-                  ((eq system-type 'gnu/linux) "linux.el"))
-            user-emacs-directory))
-
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-(add-to-list 'custom-theme-load-path (expand-file-name
-                                      "themes"
-                                      user-emacs-directory))
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (select-frame frame)
-                (load-theme 'nord t)))
-  (load-theme 'nord t))
-
 (use-package tramp
   :straight (:build t :pre-build (("make" "autoloads")))
   :config
@@ -30,6 +12,18 @@
 
 (use-package emacs
   :straight nil
+
+  :init
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (select-frame frame)
+                  (load-theme 'nord t)))
+    (load-theme 'nord t))
+  (load-file (expand-file-name
+              (cond ((eq system-type 'darwin) "darwin.el")
+                    ((eq system-type 'gnu/linux) "linux.el"))
+              user-emacs-directory))
 
   :hook
   (dired-mode-hook . auto-revert-mode)
@@ -50,6 +44,7 @@
 
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (custom-theme-directory (expand-file-name "themes" user-emacs-directory))
   (use-short-answers t)
   (gc-cons-threshold 100000000)
   (read-process-output-max (* 1024 1024))
