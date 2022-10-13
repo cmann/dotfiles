@@ -277,7 +277,7 @@
   :general (:keymaps 'rust-mode-map
                      "C-c C-f" nil
                      "C-c c" 'rust-compile
-                     "C-c f" 'rust-format
+                     "C-c f" 'rust-format-buffer
                      "C-c r" 'rust-run
                      "C-c t" 'rust-test))
 
