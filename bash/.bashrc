@@ -10,7 +10,7 @@ else
 fi
 
 PATH=/var/lib/snapd/snap/bin:$PATH
-PATH=/opt/local/bin:$PATH
+PATH=/opt/local/bin:/opt/local/sbin:$PATH
 PATH=$HOME/devel/go/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
 PATH=$HOME/.local/bin:$PATH
