@@ -251,7 +251,9 @@
 (use-package flymake)
 
 (use-package corfu
-  :config (global-corfu-mode))
+  :config (global-corfu-mode)
+  :general (:keymaps 'corfu-map
+                     "SPC" 'corfu-insert-separator))
 
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
