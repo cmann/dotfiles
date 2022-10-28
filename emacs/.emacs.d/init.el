@@ -252,7 +252,7 @@
 (use-package flymake)
 
 (use-package corfu
-  :config (global-corfu-mode)
+  :init (global-corfu-mode)
   :general (:keymaps 'corfu-map
                      "SPC" 'corfu-insert-separator))
 
