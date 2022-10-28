@@ -256,6 +256,11 @@
   :general (:keymaps 'corfu-map
                      "SPC" 'corfu-insert-separator))
 
+(use-package cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
 (use-package magit
   :general (leader "m" 'magit-file-dispatch))
 (use-package forge)
