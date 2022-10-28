@@ -3,12 +3,11 @@
 ;;; Code:
 (use-package tramp
   :straight (:build t :pre-build (("make" "autoloads")))
-  :config
-  (setq tramp-default-method "ssh")
-  (customize-set-variable 'tramp-ssh-controlmaster-options
-                          (concat "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
-                                  "-o ControlMaster=auto "
-                                  "-o ControlPersist=yes ")))
+  :custom
+  (tramp-default-method "ssh")
+  (tramp-ssh-controlmaster-options (concat "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
+                                           "-o ControlMaster=auto "
+                                           "-o ControlPersist=yes ")))
 
 (use-package emacs
   :straight nil
@@ -90,31 +89,31 @@
 
 (use-package compile
   :straight nil
-  :config
-  (setq compilation-ask-about-save nil
-        compilation-scroll-output 'first-error
-        compilation-read-command nil
-        compilation-always-kill t))
+  :custom
+  (compilation-ask-about-save nil)
+  (compilation-scroll-output 'first-error)
+  (compilation-read-command nil)
+  (compilation-always-kill t))
 
 (use-package project
   :general (leader "p" '(:keymap project-prefix-map)))
 
 (use-package org
-  :config
-  (setq org-directory "~/org"
-        org-agenda-files '("~/org/inbox.org"
-                           "~/org/projects.org"
-                           "~/org/reminders.org")
-        org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
-                             ("~/org/someday.org" :level . 1)
-                             ("~/org/reminders.org" :maxlevel . 2))
-        org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
-        org-capture-templates '(("t" "Todo" entry
-                                 (file+headline "~/org/inbox.org" "Tasks")
-                                 "* TODO %i%?")
-                                ("r" "Reminder" entry
-                                 (file+headline "~/org/reminders.org" "Reminders")
-                                 "* %i%? \n %U")))
+  :custom
+  (org-directory "~/org")
+  (org-agenda-files '("~/org/inbox.org"
+                      "~/org/projects.org"
+                      "~/org/reminders.org"))
+  (org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
+                        ("~/org/someday.org" :level . 1)
+                        ("~/org/reminders.org" :maxlevel . 2)))
+  (org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+  (org-capture-templates '(("t" "Todo" entry
+                            (file+headline "~/org/inbox.org" "Tasks")
+                            "* TODO %i%?")
+                           ("r" "Reminder" entry
+                            (file+headline "~/org/reminders.org" "Reminders")
+                            "* %i%? \n %U")))
   :general
   (leader
     "a" 'org-agenda
@@ -182,7 +181,8 @@
   :config
   (consult-customize
    consult-buffer :group nil)
-  (setq consult-preview-key nil)
+  :custom
+  (consult-preview-key nil)
   :general
   (search-map
    "o" 'consult-outline
@@ -217,9 +217,6 @@
   :hook ('vterm-mode . (lambda () (setq-local global-hl-line-mode nil)))
   :config
   (evil-set-initial-state 'vterm-mode 'emacs)
-  (setq vterm-shell "bash"
-        vterm-max-scrollback 10000
-        vterm-kill-buffer-on-exit t)
   (defun project-vterm-toggle ()
     (interactive)
     (require 'comint)
@@ -235,13 +232,17 @@
                 (call-interactively 'vterm)))
           (let ((current-prefix-arg (generate-new-buffer-name default-project-vterm-name)))
             (call-interactively 'vterm))))))
+  :custom
+  (vterm-shell "bash")
+  (vterm-max-scrollback 10000)
+  (vterm-kill-buffer-on-exit t)
   :general
   ("C-`" 'project-vterm-toggle))
 
 (use-package avy
-  :config
-  (setq avy-background t)
-  (setq avy-highlight-first nil)
+  :custom
+  (avy-background t)
+  (avy-highlight-first nil)
   :general
   (leader "j" 'avy-goto-char-timer))
 
@@ -285,8 +286,8 @@
   :hook (go-mode . (lambda ()
                      (add-hook 'before-save-hook #'eglot-format-buffer t t)
                      (add-hook 'before-save-hook #'eglot-code-action-organize-imports t t)))
-  :config
-  (setq gofmt-command "goimports")
+  :custom
+  (gofmt-command "goimports")
   :general (:keymaps 'go-mode-map
                      "C-c f" 'gofmt))
 
