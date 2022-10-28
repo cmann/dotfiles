@@ -63,6 +63,7 @@
 
   (vc-handled-backends '(Git))
   (vc-make-backup-files t)
+  (vc-follow-symlinks t)
   (version-control t)
   (backup-by-copying t)
   (kept-new-versions 10)
