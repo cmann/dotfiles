@@ -9,6 +9,9 @@ else
     export EDITOR="vim"
 fi
 
+PS1='\[\033[0;32m\]\u \[\033[0;34m\]\w\[\033[0m\]$(__git_ps1 " (%s)")$(__venv_ps1)\n$ '
+export PS1=$PS1'\[$(vterm_prompt_end)\]'
+
 PATH=/var/lib/snapd/snap/bin:$PATH
 PATH=/opt/local/bin:/opt/local/sbin:$PATH
 PATH=$HOME/devel/go/bin:$PATH
@@ -22,7 +25,6 @@ PATH=$HOME/.nimble/bin:$PATH
 PATH=$HOME/.poetry/bin:$PATH
 export PATH
 
-export PS1='\[\033[0;32m\]\u \[\033[0;34m\]\w\[\033[0m\]$(__git_ps1 " (%s)")$(__venv_ps1)\n$ '
 export HISTCONTROL=ignoreboth
 export GOPATH=$HOME/devel/go
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -43,7 +45,6 @@ alias dm='docker-machine'
 alias gs='git status'
 alias gl='git log --oneline'
 alias gri='git rebase -i --autosquash --onto $(git merge-base -a HEAD @{upstream})'
-command -v hub &>/dev/null && alias git='hub'
 
 command -v gdircolors &>/dev/null && alias dircolors=gdircolors
 if [ -f ~/.dir_colors ]; then
@@ -51,9 +52,6 @@ if [ -f ~/.dir_colors ]; then
 else
     eval "$(dircolors)"
 fi
-
-[ -f ~/.xmodmap ] && xmodmap ~/.xmodmap >/dev/null 2>&1
-[ -f ~/.rvm/scripts/rvm ] && . ~/.rvm/scripts/rvm
 
 [ -f /usr/share/fzf/shell/key-bindings.bash ] && . /usr/share/fzf/shell/key-bindings.bash
 [ -f /opt/local/share/fzf/shell/key-bindings.bash ] && . /opt/local/share/fzf/shell/key-bindings.bash
@@ -63,18 +61,6 @@ if [ -d "/opt/local/share/git/contrib/completion" ]; then
     source /opt/local/share/git/contrib/completion/git-completion.bash
     source /opt/local/share/git/contrib/completion/git-prompt.sh
 fi
-
-dmswitch() {
-    eval "$(docker-machine env $1)"
-}
-
-_dmswitch() {
-    local cur=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=( $(compgen -W "$(docker-machine ls -q)" -- $cur) )
-}
-
-complete -F _activate activate
-complete -F _dmswitch dmswitch
 
 __venv_ps1() {
     if [ ! -z ${VIRTUAL_ENV+x} ]; then
@@ -95,4 +81,3 @@ vterm_printf() {
 vterm_prompt_end() {
     vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
 }
-export PS1=$PS1'\[$(vterm_prompt_end)\]'

@@ -13,6 +13,10 @@ sudo dnf config-manager --set-enabled google-chrome
 
 sudo dnf install -y \
      stow \
+     libtool \
+     make \
+     gcc \
+     cmake \
      google-chrome-stable \
      emacs \
      tmux \
