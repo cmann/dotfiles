@@ -52,9 +52,9 @@
   (create-lockfiles nil)
   (native-comp-async-report-warnings-errors 'silent)
 
-  (scroll-margin 0)
+  (scroll-margin 3)
   (scroll-conservatively 100000)
-  (scroll-preserve-screen-position 1)
+  (scroll-preserve-screen-position t)
 
   (tab-always-indent 'complete)
   (read-extended-command-predicate #'command-completion-default-include-p)
