@@ -76,7 +76,7 @@
   (js-indent-level 2))
 
 (use-package exec-path-from-shell
-  :config (when (memq window-system '(mac ns x))
+  :config (when (memq window-system '(mac ns pgtk x))
             (exec-path-from-shell-initialize)))
 
 (use-package delight)
