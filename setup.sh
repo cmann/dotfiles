@@ -17,6 +17,7 @@ sudo dnf install -y \
      make \
      gcc \
      cmake \
+     ripgrep \
      google-chrome-stable \
      emacs \
      tmux \
