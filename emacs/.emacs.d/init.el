@@ -1,16 +1,17 @@
 ;;; init --- Emacs configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
-(use-package tramp
-  :straight (:build t :pre-build (("make" "autoloads")))
-  :custom
-  (tramp-default-method "ssh")
-  (tramp-ssh-controlmaster-options (concat "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
-                                           "-o ControlMaster=auto "
-                                           "-o ControlPersist=yes ")))
+
+(use-package general
+  :config
+  (general-evil-setup)
+  (general-create-definer leader
+    :states '(normal visual)
+    :prefix "SPC"))
+(elpaca-wait)
 
 (use-package emacs
-  :straight nil
+  :elpaca nil
 
   :init
   (if (daemonp)
@@ -75,26 +76,27 @@
   (tab-width 4)
   (js-indent-level 2))
 
-(use-package exec-path-from-shell
-  :config (when (memq window-system '(mac ns pgtk x))
-            (exec-path-from-shell-initialize)))
-
-(use-package delight)
-
-(use-package general
-  :config
-  (general-evil-setup)
-  (general-create-definer leader
-    :states '(normal visual)
-    :prefix "SPC"))
+(use-package tramp
+  :elpaca nil
+  :custom
+  (tramp-default-method "ssh")
+  (tramp-ssh-controlmaster-options (concat "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
+                                           "-o ControlMaster=auto "
+                                           "-o ControlPersist=yes ")))
 
 (use-package compile
-  :straight nil
+  :elpaca nil
   :custom
   (compilation-ask-about-save nil)
   (compilation-scroll-output 'first-error)
   (compilation-read-command nil)
   (compilation-always-kill t))
+
+(use-package exec-path-from-shell
+  :config (when (memq window-system '(mac ns pgtk x))
+            (exec-path-from-shell-initialize)))
+
+(use-package delight)
 
 (use-package project
   :general (leader "p" '(:keymap project-prefix-map)))
@@ -247,8 +249,6 @@
   :general
   (leader "j" 'avy-goto-char-timer))
 
-(use-package eglot)
-
 (use-package flymake)
 
 (use-package corfu
@@ -275,12 +275,17 @@
   :hook (prog-mode . ws-butler-mode))
 
 (use-package sh-script
+  :elpaca nil
   :mode ("\\.bashrc\\'" . sh-mode))
 
 (use-package python-mode
-  :straight nil
+  :elpaca nil
   :general (:keymaps 'python-mode-map
                      "C-c f" 'black-format-buffer))
+
+(use-package sql
+  :elpaca nil
+  :config (sql-set-product 'postgres))
 
 (use-package rust-mode
   :general (:keymaps 'rust-mode-map
@@ -306,9 +311,6 @@
 (use-package zig-mode
   :general (:keymaps 'zig-mode-map
                      "C-c f" 'zig-format-buffer))
-
-(use-package sql
-  :config (sql-set-product 'postgres))
 
 (use-package yaml-mode)
 (use-package markdown-mode)
