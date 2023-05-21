@@ -52,6 +52,7 @@
   (require-final-newline t)
   (create-lockfiles nil)
   (native-comp-async-report-warnings-errors 'silent)
+  (use-package-enable-imenu-support t)
 
   (scroll-margin 3)
   (scroll-conservatively 100000)
@@ -278,10 +279,23 @@
   :elpaca nil
   :mode ("\\.bashrc\\'" . sh-mode))
 
-(use-package python-mode
+(use-package python
   :elpaca nil
-  :general (:keymaps 'python-mode-map
-                     "C-c f" 'black-format-buffer))
+  :config
+  (defun black-format-buffer ()
+    "Formats the buffer using `black'"
+    (interactive)
+    (shell-command-on-region
+     (point-min)
+     (point-max)
+     "black -"
+     (current-buffer)
+     t
+     "*Black Error Buffer*"
+     t))
+  :general
+  (:keymaps 'python-mode-map
+            "C-c f" 'black-format-buffer))
 
 (use-package sql
   :elpaca nil
@@ -318,18 +332,6 @@
 (use-package typescript-mode)
 (use-package php-mode)
 (use-package pyvenv)
-
-(defun black-format-buffer ()
-  "Formats the buffer using `black'"
-  (interactive)
-  (shell-command-on-region
-   (point-min)
-   (point-max)
-   "black -"
-   (current-buffer)
-   t
-   "*Black Error Buffer*"
-   t))
 
 (provide 'init.el)
 ;;; init.el ends here
