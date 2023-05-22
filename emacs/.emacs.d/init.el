@@ -45,6 +45,7 @@
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
   (custom-theme-directory (expand-file-name "themes" user-emacs-directory))
+  (inhibit-startup-screen t)
   (use-short-answers t)
   (gc-cons-threshold 100000000)
   (read-process-output-max (* 1024 1024))
@@ -140,15 +141,14 @@
   :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
          (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
-  (dolist (mode '(help-mode
-                  compilation-mode
-                  dired-mode
-                  xref--xref-buffer-mode))
-    (evil-set-initial-state mode 'emacs))
+  (dolist (mode '(prog-mode
+                  text-mode))
+    (evil-set-initial-state mode 'normal))
   (evil-mode)
   :custom
-  (evil-undo-system 'undo-redo)
+  (evil-default-state 'emacs)
   (evil-motion-state-modes nil)
+  (evil-undo-system 'undo-redo)
   :general
   (leader
     "SPC" 'execute-extended-command
