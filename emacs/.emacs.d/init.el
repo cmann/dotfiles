@@ -1,7 +1,6 @@
 ;;; init --- Emacs configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
-
 (use-package general
   :config
   (general-evil-setup)
@@ -243,15 +242,6 @@
   :general
   ("C-`" 'project-vterm-toggle))
 
-(use-package avy
-  :custom
-  (avy-background t)
-  (avy-highlight-first nil)
-  :general
-  (leader "j" 'avy-goto-char-timer))
-
-(use-package flymake)
-
 (use-package corfu
   :init (global-corfu-mode)
   :general (:keymaps 'corfu-map
@@ -330,7 +320,6 @@
 (use-package markdown-mode)
 (use-package dockerfile-mode)
 (use-package typescript-mode)
-(use-package php-mode)
 (use-package pyvenv)
 
 (provide 'init.el)
