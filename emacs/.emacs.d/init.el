@@ -147,6 +147,7 @@
   :custom
   (evil-default-state 'emacs)
   (evil-motion-state-modes nil)
+  (evil-insert-state-modes nil)
   (evil-undo-system 'undo-redo)
   :general
   (leader
