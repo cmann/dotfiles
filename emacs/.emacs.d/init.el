@@ -300,13 +300,13 @@
                      "C-c t" 'rust-test))
 
 (use-package go-mode
-  :hook (go-mode . (lambda ()
-                     (add-hook 'before-save-hook #'eglot-format-buffer t t)
-                     (add-hook 'before-save-hook #'eglot-code-action-organize-imports t t)))
-  :custom
-  (gofmt-command "goimports")
-  :general (:keymaps 'go-mode-map
-                     "C-c f" 'gofmt))
+  :hook
+  (go-mode . (lambda ()
+               (add-hook 'before-save-hook #'eglot-format-buffer nil t)
+               (add-hook 'before-save-hook #'cm--eglot-organize-imports nil t)))
+  :config
+  (defun cm--eglot-organize-imports ()
+         (eglot-code-actions nil nil "source.organizeImports" t)))
 
 (use-package terraform-mode
   :general (:keymaps 'terraform-mode-map
