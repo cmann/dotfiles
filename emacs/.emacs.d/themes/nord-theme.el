@@ -723,14 +723,24 @@
 
     ;; > vterm
     `(vterm-color-default ((,class (:foreground ,nord4  :background ,nord0))))
-    `(vterm-color-black   ((,class (:foreground ,nord1  :background ,nord3))))
+    `(vterm-color-black   ((,class (:foreground ,nord1  :background ,nord1))))
     `(vterm-color-red     ((,class (:foreground ,nord11 :background ,nord11))))
     `(vterm-color-green   ((,class (:foreground ,nord14 :background ,nord14))))
     `(vterm-color-yellow  ((,class (:foreground ,nord13 :background ,nord13))))
     `(vterm-color-blue    ((,class (:foreground ,nord9  :background ,nord9))))
     `(vterm-color-magenta ((,class (:foreground ,nord15 :background ,nord15))))
-    `(vterm-color-cyan    ((,class (:foreground ,nord8  :background ,nord7))))
-    `(vterm-color-white   ((,class (:foreground ,nord5  :background ,nord6))))
+    `(vterm-color-cyan    ((,class (:foreground ,nord8  :background ,nord8))))
+    `(vterm-color-white   ((,class (:foreground ,nord5  :background ,nord5))))
+
+    ;; > eat
+    `(eat-term-color-0 ((,class (:foreground ,nord1  :background ,nord1))))
+    `(eat-term-color-1 ((,class (:foreground ,nord11 :background ,nord11))))
+    `(eat-term-color-2 ((,class (:foreground ,nord14 :background ,nord14))))
+    `(eat-term-color-3 ((,class (:foreground ,nord13 :background ,nord13))))
+    `(eat-term-color-4 ((,class (:foreground ,nord9  :background ,nord9))))
+    `(eat-term-color-5 ((,class (:foreground ,nord15 :background ,nord15))))
+    `(eat-term-color-6 ((,class (:foreground ,nord8  :background ,nord8))))
+    `(eat-term-color-7 ((,class (:foreground ,nord5  :background ,nord5))))
 
     ;; > corfu
     `(corfu-default ((,class (:background ,nord1))))

@@ -9,8 +9,9 @@ else
     export EDITOR="vim"
 fi
 
-PS1='\[\033[0;32m\]\u \[\033[0;34m\]\w\[\033[0m\]$(__git_ps1 " (%s)")$(__venv_ps1)\n$ '
-export PS1=$PS1'\[$(vterm_prompt_end)\]'
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
+
+export PS1='\[\033[0;32m\]\u \[\033[0;34m\]\w\[\033[0m\]$(__git_ps1 " (%s)")$(__venv_ps1)\n$ '
 
 PATH=/var/lib/snapd/snap/bin:$PATH
 PATH=/opt/local/bin:/opt/local/sbin:$PATH

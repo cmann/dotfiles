@@ -217,31 +217,30 @@
 (use-package embark-consult
   :after (embark consult))
 
-(use-package vterm
-  :hook ('vterm-mode . (lambda () (setq-local global-hl-line-mode nil)))
+(use-package eat
+  :elpaca
+  (eat :host codeberg
+       :repo "akib/emacs-eat"
+       :files ("*.el" ("term" "term/*.el") "*.texi"
+               "*.ti" ("terminfo/e" "terminfo/e/*")
+               ("terminfo/65" "terminfo/65/*")
+               ("integration" "integration/*")
+               (:exclude ".dir-locals.el" "*-tests.el")))
+  :hook
+  ('eat-mode . (lambda ()
+                 (setq-local global-hl-line-mode nil)
+                 (setq-local left-margin-width 0)
+                 (setq-local scroll-margin 0)))
   :config
-  (evil-set-initial-state 'vterm-mode 'emacs)
-  (defun project-vterm-toggle ()
-    (interactive)
-    (require 'comint)
-    (if (eq major-mode 'vterm-mode)
+  (defun project-eat-toggle (arg)
+    (interactive "P")
+    (if (eq major-mode 'eat-mode)
         (previous-buffer)
-      (let* ((default-directory (project-root (project-current t)))
-             (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
-             (vterm-buffer (get-buffer default-project-vterm-name)))
-        (if (and vterm-buffer (not current-prefix-arg))
-            (if (comint-check-proc vterm-buffer)
-                (switch-to-buffer vterm-buffer)
-              (let ((current-prefix-arg 'vterm-buffer))
-                (call-interactively 'vterm)))
-          (let ((current-prefix-arg (generate-new-buffer-name default-project-vterm-name)))
-            (call-interactively 'vterm))))))
+      (eat-project arg)))
   :custom
-  (vterm-shell "bash")
-  (vterm-max-scrollback 10000)
-  (vterm-kill-buffer-on-exit t)
+  (eat-kill-buffer-on-exit t)
   :general
-  ("C-`" 'project-vterm-toggle))
+  ("C-`" 'project-eat-toggle))
 
 (use-package corfu
   :init (global-corfu-mode)
