@@ -27,6 +27,7 @@
   :hook
   (dired-mode-hook . auto-revert-mode)
   (comint-mode-hook . (lambda () (setq-local global-hl-line-mode nil)))
+  (special-mode . visual-line-mode)
 
   :config
   (scroll-bar-mode -1)
@@ -53,6 +54,7 @@
   (create-lockfiles nil)
   (native-comp-async-report-warnings-errors 'silent)
   (use-package-enable-imenu-support t)
+  (eldoc-echo-area-prefer-doc-buffer t)
 
   (scroll-margin 3)
   (scroll-conservatively 100000)
