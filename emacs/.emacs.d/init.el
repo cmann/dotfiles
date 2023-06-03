@@ -34,6 +34,7 @@
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (blink-cursor-mode -1)
+  (eglot-inlay-hints-mode -1)
   (column-number-mode)
   (electric-pair-mode)
   (show-paren-mode)
@@ -142,9 +143,8 @@
   :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
          (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
-  (dolist (mode '(prog-mode
-                  text-mode))
-    (evil-set-initial-state mode 'normal))
+  (evil-set-initial-state 'text-mode 'normal)
+  (evil-set-initial-state 'prog-mode 'normal)
   (evil-mode)
   :custom
   (evil-default-state 'emacs)
