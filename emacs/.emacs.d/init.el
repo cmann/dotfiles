@@ -34,7 +34,6 @@
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (blink-cursor-mode -1)
-  (eglot-inlay-hints-mode -1)
   (column-number-mode)
   (electric-pair-mode)
   (show-paren-mode)
@@ -56,6 +55,7 @@
   (native-comp-async-report-warnings-errors 'silent)
   (use-package-enable-imenu-support t)
   (eldoc-echo-area-prefer-doc-buffer t)
+  (eglot-ignored-server-capabilities '(:inlayHintProvider))
 
   (scroll-margin 3)
   (scroll-conservatively 100000)
