@@ -139,13 +139,11 @@
   :config (which-key-mode))
 
 (use-package evil
-  :init (customize-set-variable 'evil-want-Y-yank-to-eol t)
   :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
          (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
-  (evil-set-initial-state 'text-mode 'normal)
-  (evil-set-initial-state 'prog-mode 'normal)
-  (evil-set-initial-state 'conf-mode 'normal)
+  (customize-set-variable 'evil-normal-state-modes '(text-mode prog-mode conf-mode))
+  (customize-set-variable 'evil-want-Y-yank-to-eol t)
   (evil-mode)
   :custom
   (evil-default-state 'emacs)
