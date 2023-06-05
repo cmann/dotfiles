@@ -145,6 +145,7 @@
   :config
   (evil-set-initial-state 'text-mode 'normal)
   (evil-set-initial-state 'prog-mode 'normal)
+  (evil-set-initial-state 'conf-mode 'normal)
   (evil-mode)
   :custom
   (evil-default-state 'emacs)
