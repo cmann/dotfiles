@@ -303,11 +303,20 @@
 (use-package go-mode
   :hook
   (go-mode . (lambda ()
-               (add-hook 'before-save-hook #'eglot-format-buffer nil t)
-               (add-hook 'before-save-hook #'cm--eglot-organize-imports nil t)))
+               (add-hook 'before-save-hook #'gofmt-before-save nil t)))
+  :custom
+  (gofmt-command "goimports"))
+
+(use-package gotest
   :config
-  (defun cm--eglot-organize-imports ()
-         (eglot-code-actions nil nil "source.organizeImports" t)))
+  (defun go-test-dwim ()
+    (interactive)
+    (condition-case nil
+        (go-test-current-test)
+      (error (go-test-current-file))))
+  :general
+  (:keymaps 'go-mode-map
+            "C-c t" 'go-test-dwim))
 
 (use-package terraform-mode
   :general (:keymaps 'terraform-mode-map
@@ -317,9 +326,11 @@
   :general (:keymaps 'zig-mode-map
                      "C-c f" 'zig-format-buffer))
 
-(use-package yaml-mode)
 (use-package markdown-mode)
+(use-package markdown-preview-mode)
+(use-package yaml-mode)
 (use-package dockerfile-mode)
+(use-package graphql-mode)
 (use-package typescript-mode)
 (use-package pyvenv)
 
