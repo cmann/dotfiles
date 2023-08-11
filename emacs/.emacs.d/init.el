@@ -55,7 +55,6 @@
   (native-comp-async-report-warnings-errors 'silent)
   (use-package-enable-imenu-support t)
   (eldoc-echo-area-prefer-doc-buffer t)
-  (eglot-ignored-server-capabilities '(:inlayHintProvider))
 
   (scroll-margin 3)
   (scroll-conservatively 100000)
@@ -93,7 +92,6 @@
   :custom
   (compilation-ask-about-save nil)
   (compilation-scroll-output 'first-error)
-  (compilation-read-command nil)
   (compilation-always-kill t))
 
 (use-package exec-path-from-shell
@@ -137,6 +135,10 @@
 (use-package which-key
   :delight
   :config (which-key-mode))
+
+(use-package wgrep
+  :custom
+  (wgrep-auto-save-buffer t))
 
 (use-package evil
   :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
@@ -243,6 +245,19 @@
   :general
   ("C-`" 'project-eat-toggle))
 
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs
+               '(typescript-mode . ("npx" "typescript-language-server" "--stdio")))
+  :custom
+  (eglot-ignored-server-capabilities '(:inlayHintProvider)))
+
+(use-package flymake-eslint
+  :hook
+  (eglot-managed-mode . (lambda ()
+                          (when (derived-mode-p 'typescript-mode 'js-mode)
+                            (flymake-eslint-enable)))))
+
 (use-package corfu
   :init (global-corfu-mode)
   :general (:keymaps 'corfu-map
@@ -265,6 +280,10 @@
 (use-package ws-butler
   :delight
   :hook (prog-mode . ws-butler-mode))
+
+(use-package editorconfig
+  :delight
+  :config (editorconfig-mode 1))
 
 (use-package sh-script
   :elpaca nil
@@ -326,12 +345,13 @@
   :general (:keymaps 'zig-mode-map
                      "C-c f" 'zig-format-buffer))
 
+(use-package typescript-mode)
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
 (use-package yaml-mode)
 (use-package dockerfile-mode)
 (use-package graphql-mode)
-(use-package typescript-mode)
+(use-package bazel)
 (use-package pyvenv)
 
 (provide 'init.el)
