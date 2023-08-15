@@ -144,7 +144,7 @@
   :hook ((evil-visual-state-entry . (lambda() (global-hl-line-mode -1)))
          (evil-visual-state-exit  . (lambda() (global-hl-line-mode +1))))
   :config
-  (customize-set-variable 'evil-normal-state-modes '(text-mode prog-mode conf-mode))
+  (customize-set-variable 'evil-normal-state-modes '(fundamental-mode text-mode prog-mode conf-mode))
   (customize-set-variable 'evil-want-Y-yank-to-eol t)
   (evil-mode)
   :custom
