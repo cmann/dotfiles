@@ -1,6 +1,48 @@
 ;;; init --- Emacs configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
+(defvar elpaca-installer-version 0.7)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil :depth 1
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                 ,@(when-let ((depth (plist-get order :depth)))
+                                                     (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                 ,(plist-get order :repo) ,repo))))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode)
+  (setq elpaca-use-package-by-default t))
+(elpaca-wait)
 (use-package general
   :config
   (general-evil-setup)
@@ -10,7 +52,7 @@
 (elpaca-wait)
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
 
   :init
   (if (daemonp)
@@ -59,6 +101,7 @@
   (scroll-margin 3)
   (scroll-conservatively 100000)
   (scroll-preserve-screen-position t)
+  (line-spacing 0.1)
 
   (tab-always-indent 'complete)
   (read-extended-command-predicate #'command-completion-default-include-p)
@@ -80,7 +123,7 @@
   (js-indent-level 2))
 
 (use-package tramp
-  :elpaca nil
+  :ensure nil
   :custom
   (tramp-default-method "ssh")
   (tramp-ssh-controlmaster-options (concat "-o ControlPath=/tmp/ssh-ControlPath-%%r@%%h:%%p "
@@ -88,7 +131,7 @@
                                            "-o ControlPersist=yes ")))
 
 (use-package compile
-  :elpaca nil
+  :ensure nil
   :custom
   (compilation-ask-about-save nil)
   (compilation-scroll-output 'first-error)
@@ -101,6 +144,7 @@
 (use-package delight)
 
 (use-package project
+  :ensure nil
   :general (leader "p" '(:keymap project-prefix-map)))
 
 (use-package org
@@ -221,7 +265,7 @@
   :after (embark consult))
 
 (use-package eat
-  :elpaca
+  :ensure
   (eat :host codeberg
        :repo "akib/emacs-eat"
        :files ("*.el" ("term" "term/*.el") "*.texi"
@@ -245,7 +289,24 @@
   :general
   ("C-`" 'project-eat-toggle))
 
+(use-package dape
+  :config
+  (add-to-list 'dape-configs
+               `(skaffold-go
+                 modes (go-mode go-ts-mode)
+                 host "127.0.0.1"
+                 port 56268
+                 :type "go"
+                 :request "attach"
+                 :mode "remote"
+                 :substitutePath [(:from dape-cwd :to "")]
+                 :cwd dape-cwd))
+  :custom
+  (dape-debug t)
+  (dape-buffer-window-arrangement 'right))
+
 (use-package eglot
+  :ensure nil
   :config
   (add-to-list 'eglot-server-programs
                '(typescript-mode . ("npx" "typescript-language-server" "--stdio")))
@@ -286,11 +347,11 @@
   :config (editorconfig-mode 1))
 
 (use-package sh-script
-  :elpaca nil
+  :ensure nil
   :mode ("\\.bashrc\\'" . sh-mode))
 
 (use-package python
-  :elpaca nil
+  :ensure nil
   :config
   (defun black-format-buffer ()
     "Formats the buffer using `black'"
@@ -308,7 +369,7 @@
             "C-c f" 'black-format-buffer))
 
 (use-package sql
-  :elpaca nil
+  :ensure nil
   :config (sql-set-product 'postgres))
 
 (use-package rust-mode
@@ -345,14 +406,25 @@
   :general (:keymaps 'zig-mode-map
                      "C-c f" 'zig-format-buffer))
 
+(use-package graphql-mode
+  :after editorconfig
+  :init
+  (add-to-list 'editorconfig-indentation-alist '(graphql-mode . graphql-indent-level)))
+
 (use-package typescript-mode)
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
 (use-package yaml-mode)
 (use-package dockerfile-mode)
-(use-package graphql-mode)
+(use-package protobuf-mode)
 (use-package bazel)
 (use-package pyvenv)
 
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 (provide 'init.el)
 ;;; init.el ends here

@@ -749,6 +749,9 @@
     ;; > highlight-numbers
     `(highlight-numbers-number ((,class (:foreground ,nord15))))
 
+    ;; > eglot
+    `(eglot-highlight-symbol-face ((,class (:background ,nord2))))
+
     ;; > perspective
     `(persp-selected-face ((,class (:foreground ,nord8 :weight bold))))))
 
